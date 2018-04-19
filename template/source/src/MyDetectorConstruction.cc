@@ -19,10 +19,25 @@ $MyDetectorConstruction$::$MyDetectorConstruction$()
 {
   if (verbose)
     G4cout << "====>$MyDetectorConstruction$::$MyDetectorConstruction$()" << G4endl;
+
+  fStepLimit = 0;
+  for(int i=0;i<SIZE;i++) fDetPar[i] = new MyDetectorParameters();
+  for(int i=0;i<SIZE;i++) fSolid[i]  = 0;
+  for(int i=0;i<SIZE;i++) fLogic[i]  = 0;
+  for(int i=0;i<SIZE;i++) fPhysc[i]  = 0;
+  
+  fDetectorMessenger = new MyDetectorMessenger(this);
+
+$detSrcIni$ 
+
+  //DefineMaterials();
+
 }
 
 $MyDetectorConstruction$::~$MyDetectorConstruction$()
 {
+  delete fDetectorMessenger;
+  delete fStepLimit;
 }
 
 G4VPhysicalVolume *$MyDetectorConstruction$::Construct()
@@ -30,57 +45,31 @@ G4VPhysicalVolume *$MyDetectorConstruction$::Construct()
   if (verbose)
     G4cout << "====>$MyDetectorConstruction$::Construct()" << G4endl;
 
-  // Get nist material manager
-  G4NistManager *nist = G4NistManager::Instance();
-  G4bool checkOverlaps = true;
+  return DefineVolumes();
+}
 
-  // World
-  G4double world_size = 200 * cm;
-  G4Material *world_mat = nist->FindOrBuildMaterial("G4_AIR");
+G4VPhysicalVolume *$MyDetectorConstruction$::DefineVolumes()
+{
+  if(verbose) G4cout<<"====>G4VPhysicalVolume* MyDetectorConstruction::DefineVolumes()"<<G4endl;
 
-  G4Box *solidWorld =
-      new G4Box("World",                                               //its name
-                0.5 * world_size, 0.5 * world_size, 0.5 * world_size); //its size
+  for(int i=0; i<100; i++)
+  {
+     if(fPhysc[i]!=NULL) delete fPhysc[i];
+     if(fLogic[i]!=NULL) delete fLogic[i];
+     if(fSolid[i]!=NULL) delete fSolid[i];
+  }
 
-  G4LogicalVolume *logicWorld =
-      new G4LogicalVolume(solidWorld, //its solid
-                          world_mat,  //its material
-                          "World");   //its name
+  // Cleanup old geometry
+  G4GeometryManager::GetInstance()->OpenGeometry();
+  G4PhysicalVolumeStore::GetInstance()->Clean();
+  G4LogicalVolumeStore::GetInstance()->Clean();
+  G4SolidStore::GetInstance()->Clean();
 
-  G4VPhysicalVolume *physWorld =
-      new G4PVPlacement(0,               //no rotation
-                        G4ThreeVector(), //at (0,0,0)
-                        logicWorld,      //its logical volume
-                        "World",         //its name
-                        0,               //its mother  volume
-                        false,           //no boolean operation
-                        0,               //copy number
-                        checkOverlaps);  //overlaps checking
+  // Define volume
 
-  //box
-  G4Material *box_mat = nist->FindOrBuildMaterial("G4_Fe");
-#define DZ 50. * cm
-#define DY 60. * cm
-#define DX 22. * cm
-  G4ThreeVector posBox(DX, DY, DZ); //its position
-  G4double box_x = 20. * cm;
-  G4double box_y = 20. * cm;
-  G4double box_z = 20. * cm;
-  G4Box *solidShapeBox =                     //its name
-      new G4Box("Box", box_x, box_y, box_z); //its size
-  G4LogicalVolume *logicShapeBox =
-      new G4LogicalVolume(solidShapeBox, //its solid
-                          box_mat,       //its material
-                          "Box");        //its name
-  using std::string;
-  G4String name("Box");
-  new G4PVPlacement(0,              //no rotation
-                    posBox,         //at position
-                    logicShapeBox,  //its logical volume
-                    name,           //its name
-                    logicWorld,     //its mother  volume
-                    false,          //no boolean operation
-                    0,              //copy number
-                    checkOverlaps); //overlaps checking
+$detSrcVol$ 
+
+$detSrcVis$
+
   return physWorld;
 }
