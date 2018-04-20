@@ -51,6 +51,15 @@ fg.detReplace(genDet, outPath+'/source/include/'+com.detecClass+'.hh')
 fg.detReplace(genDet, outPath+'/source/src/'+com.detecClass+'.cc')
 
 #===========================
+# Gen detMes class file
+
+fg.commonReplace(temPath+'/src/MyDetectorMessenger.cc',      outPath+'/source/src/'+com.detmesClass+'.cc')
+fg.commonReplace(temPath+'/include/MyDetectorMessenger.hh',  outPath+'/source/include/'+com.detmesClass+'.hh')
+
+fg.detReplace(genDet, outPath+'/source/include/'+com.detmesClass+'.hh')
+fg.detReplace(genDet, outPath+'/source/src/'+com.detmesClass+'.cc')
+
+#===========================
 # Gen envclass file
 
 fg.commonReplace(temPath+'/src/MyEventAction.cc',      outPath+'/source/src/'+com.eventClass+'.cc')

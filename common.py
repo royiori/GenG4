@@ -7,6 +7,7 @@ addVerbose    = ''
 randomEng     = '' 
 actionClass   = '' 
 detecClass    = '' 
+detmesClass   = ''
 physicsClass  = '' 
 gunClass      = '' 
 runClass      = '' 
@@ -17,62 +18,51 @@ trackClass    = ''
 analysisClass = '' 
 detTemplate = []
 
+# read as configure
+def readTags(key, path) :
+    try:  
+        file = open(path, "r")  # open file in read mode  
+    except IOError as message:     # file open failed  
+        print("read file error({0}:{1})".format(message, path))  
+        sys.exit(1)  
+    
+    lines = file.readlines()  
+
+    ind = 0
+    mesg = ''
+    for line in lines:
+        if(line == '#'+key+'#\n') :
+            ind = 1
+            continue
+        elif(line == '#end#\n') :
+            ind = 0
+            continue
+        if(ind == 1) :
+            mesg += line
+
+    file.close()
+    return mesg
+
 # class for read the template
 class ReadDetTemplate : 
     detSrcVis = ''
     detIniFunc_Box = ''
     detSrcIni_Box = ''
     detSrcVol_Box = ''
+    detMesIniDef_Box = ''
+    detMesSrcDef_Box = ''
+    detMesSrcDel_Box = ''
+    detMesSrcFunc_Box = ''
 
     def __init__(self, path) :
-        self.detSrcVis = ''
-        self.detIniFunc_Box = ''
-        self.detSrcIni_Box = ''
-        self.detSrcVol_Box = ''
-
-        try:  
-            file = open(path, "r")  # open file in read mode  
-        except IOError as message:     # file open failed  
-            print("read file error({0}:{1})".format(message, path))  
-            sys.exit(1)  
-  
-        lines = file.readlines()  
-
-        idetSrcVis = 0
-        idetIniFunc_Box = 0
-        idetSrcIni_Box = 0
-        idetSrcVol_Box = 0
-
-        for line in lines:
-            if(line == '#detSrcVis#\n') :
-                idetSrcVis = 1
-                continue
-            elif(line == '#detIniFunc_Box#\n'):
-                idetIniFunc_Box = 1
-                continue
-            elif(line == '#detSrcIni_Box#\n'):
-                idetSrcIni_Box = 1
-                continue
-            elif(line == '#detSrcVol_Box#\n') :
-                idetSrcVol_Box = 1
-                continue
-            elif(line == '#end#\n') :
-                idetSrcVis = 0
-                idetIniFunc_Box = 0
-                idetSrcIni_Box = 0
-                idetSrcVol_Box = 0
-                continue
-            
-            if(idetSrcVis == 1) :
-                self.detSrcVis += line
-            if(idetIniFunc_Box == 1) :
-                self.detIniFunc_Box += line
-            if(idetSrcIni_Box == 1) :
-                self.detSrcIni_Box += line
-            if(idetSrcVol_Box == 1) :
-                self.detSrcVol_Box += line
-        
-        file.close() 
+        self.detSrcVis = readTags('detSrcVis', path)
+        self.detIniFunc_Box = readTags('detIniFunc_Box', path)
+        self.detSrcIni_Box = readTags('detSrcIni_Box', path)
+        self.detSrcVol_Box = readTags('detSrcVol_Box', path)
+        self.detMesIniDef_Box = readTags('detMesIniDef_Box', path)
+        self.detMesSrcDef_Box = readTags('detMesSrcDef_Box', path)
+        self.detMesSrcDel_Box = readTags('detMesSrcDel_Box', path)
+        self.detMesSrcFunc_Box = readTags('detMesSrcFunc_Box', path)
 
     def getDetSrcVis(self):
         return self.detSrcVis
@@ -82,6 +72,14 @@ class ReadDetTemplate :
         return self.detSrcIni_Box
     def getDetSrcVol_Box(self) :
         return self.detSrcVol_Box
+    def getDetMesIniDef_Box(self) :
+        return self.detMesIniDef_Box
+    def getDetMesSrcDef_Box(self) : 
+        return self.detMesSrcDef_Box
+    def getDetMesSrcDel_Box(self) :
+        return self.detMesSrcDel_Box
+    def getDetMesSrcFunc_Box(self) :
+        return self.detMesSrcFunc_Box
 
 
 # each detector parameters
@@ -103,7 +101,11 @@ class detPar:
     detSrcIni  = ''
     detSrcVol  = ''
     detSrcVis  = ''
-
+    detMesIniDef = ''
+    detMesSrcDef = ''
+    detMesSrcDel = ''
+    detMesSrcFunc= ''
+   
     def __init__(self, config, n):  
         self.id = config.get("detector", "BodyID"+n)
         self.name = config.get("detector", "BodyName"+n)
@@ -121,6 +123,10 @@ class detPar:
             self.detIniFunc = detTemplate.getDetIniFunc_Box()
             self.detSrcIni  = detTemplate.getDetSrcIni_Box()
             self.detSrcVol  = detTemplate.getDetSrcVol_Box()
+            self.detMesIniDef = detTemplate.getDetMesIniDef_Box()
+            self.detMesSrcDef = detTemplate.getDetMesSrcDef_Box()
+            self.detMesSrcDel = detTemplate.getDetMesSrcDel_Box()
+            self.detMesSrcFunc= detTemplate.getDetMesSrcFunc_Box()
 
         self.detSrcVis = detTemplate.getDetSrcVis()
 
@@ -179,6 +185,27 @@ class detPar:
         genstr = self.detSrcVis
         genstr = genstr.replace('$detSrcVol_detID$', self.id)
         return genstr
+    
+    def genDetMesIniDef(self):
+        genstr = self.detMesIniDef
+        genstr = genstr.replace('$detMesIniDef_detName$', self.name)
+        return genstr
+    
+    def genDetMesSrcDef(self):
+        genstr = self.detMesSrcDef
+        genstr = genstr.replace('$detMesSrcDef_detName$', self.name)
+        return genstr
+    
+    def genDetMesSrcDel(self):
+        genstr = self.detMesSrcDel
+        genstr = genstr.replace('$detMesSrcDel_detName$', self.name)
+        return genstr
+
+    def genDetMesSrcFunc(self):
+        genstr = self.detMesSrcFunc
+        genstr = genstr.replace('$detMesSrcFunc_detName$', self.name)
+        genstr = genstr.replace('$detMesSrcFunc_detID$', self.id)
+        return genstr
 
 
 # generate all detectors contents for replacement
@@ -221,4 +248,28 @@ class genDet:
         genstr = ''
         for i in range(0, self.nDetBody) :
             genstr += self.detParList[i].genDetSrcVis()
+        return genstr
+
+    def genDetMesIniDef(self):
+        genstr = ''
+        for i in range(0, self.nDetBody) :
+            genstr += self.detParList[i].genDetMesIniDef()
+        return genstr
+
+    def genDetMesSrcDef(self):
+        genstr = ''
+        for i in range(0, self.nDetBody) :
+            genstr += self.detParList[i].genDetMesSrcDef()
+        return genstr
+
+    def genDetMesSrcDel(self):
+        genstr = ''
+        for i in range(0, self.nDetBody) :
+            genstr += self.detParList[i].genDetMesSrcDel()
+        return genstr
+
+    def genDetMesSrcFunc(self):
+        genstr = ''
+        for i in range(0, self.nDetBody) :
+            genstr += self.detParList[i].genDetMesSrcFunc()
         return genstr

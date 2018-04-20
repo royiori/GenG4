@@ -33,6 +33,7 @@ def readIniMain(config):
     com.randomEng    = config.get("main", "RandomEngine")
     com.actionClass  = config.get("main", "ActionClass")
     com.detecClass   = config.get("main", "DetectorClass")
+    com.detmesClass  = config.get("main", "DetMesgeClass")
     com.physicsClass = config.get("main", "PhysicsClass")
     com.gunClass     = config.get("main", "GunClass")
     com.runClass     = config.get("main", "RunClass")
@@ -51,6 +52,7 @@ def commonReplaceSub(recIn, recOut):
         filter = filter.replace('$MAINENTRYS$', com.mainfilename)  
         filter = filter.replace('$MyActionInitialization$', com.actionClass)  
         filter = filter.replace('$MyDetectorConstruction$', com.detecClass)  
+        filter = filter.replace('$MyDetectorMessenger$', com.detmesClass)
         filter = filter.replace('$MyPhysics$', com.physicsClass)  
         filter = filter.replace('$Verbose$', com.addVerbose)  
         filter = filter.replace('$RandomEng$', com.randomEng)  
@@ -95,6 +97,10 @@ def detReplace(genDet, outPath):
         filter = filter.replace('$detSrcVis$', genDet.genDetSrcVis())  
         #filter = filter.replace('$detSrcSD$' , genDet.genDetSrcSD())  
 
+        filter = filter.replace('$detMesIniDef$', genDet.genDetMesIniDef())
+        filter = filter.replace('$detMesSrcDef$', genDet.genDetMesSrcDef())
+        filter = filter.replace('$detMesSrcDel$', genDet.genDetMesSrcDel())
+        filter = filter.replace('$detMesSrcFunc$', genDet.genDetMesSrcFunc())
         srcOut.append(filter)  
 
     saveArray(outPath, srcOut)

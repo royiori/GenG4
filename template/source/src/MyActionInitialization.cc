@@ -8,6 +8,8 @@
 #include "$MyTrackingAction$.hh"
 #include "Verbose.hh"
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 $MyActionInitialization$::$MyActionInitialization$()
     : G4VUserActionInitialization()
 {
@@ -15,9 +17,13 @@ $MyActionInitialization$::$MyActionInitialization$()
     G4cout << "====>$MyActionInitialization$::$MyActionInitialization$()" << G4endl;
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 $MyActionInitialization$::~$MyActionInitialization$()
 {
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void $MyActionInitialization$::BuildForMaster() const
 {
@@ -26,6 +32,8 @@ void $MyActionInitialization$::BuildForMaster() const
 
   SetUserAction(new $MyRunAction$());
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void $MyActionInitialization$::Build() const
 {
@@ -44,3 +52,5 @@ void $MyActionInitialization$::Build() const
 
   SetUserAction(new $MyTrackingAction$());
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
