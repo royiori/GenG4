@@ -43,8 +43,6 @@ def readIniMain(config):
     com.trackClass   = config.get("main", "TrackClass")
     com.analysisClass= config.get("main", "AnalysisClass")
 
-def readTemplate(temPath):
-    com.detTemplate = com.ReadDetTemplate(temPath)
 
 def commonReplaceSub(recIn, recOut):
     for line in recIn:
@@ -101,6 +99,22 @@ def detReplace(genDet, outPath):
         filter = filter.replace('$detMesSrcDef$', genDet.genDetMesSrcDef())
         filter = filter.replace('$detMesSrcDel$', genDet.genDetMesSrcDel())
         filter = filter.replace('$detMesSrcFunc$', genDet.genDetMesSrcFunc())
+        srcOut.append(filter)  
+
+    saveArray(outPath, srcOut)
+
+
+def gunReplace(genGun, outPath):
+    srcIn = []
+    loadArray(outPath, srcIn)
+
+    srcOut = []
+    for line in srcIn:
+        filter = line
+        filter = filter.replace('$gunIncFunc$', genGun.genGunIncFunc())  
+        filter = filter.replace('$gunSrcIni$', genGun.genGunSrcIni())  
+        filter = filter.replace('$gunSrcAct$', genGun.genGunSrcAct())  
+
         srcOut.append(filter)  
 
     saveArray(outPath, srcOut)

@@ -30,7 +30,6 @@ if os.path.exists(outPath+'./source/xml') == False:
 #===========================
 # Gen main file
 fg.readIniMain(config)
-fg.readTemplate(temPath+'/src/MyDetectorTemplate.cc')
 
 fg.commonReplace(temPath+'/Framework.cc',  outPath+'/source/'+com.mainfilename+'.cc')
 
@@ -46,7 +45,7 @@ fg.commonReplace(temPath+'/include/MyActionInitialization.hh',  outPath+'/source
 fg.commonReplace(temPath+'/src/MyDetectorConstruction.cc',      outPath+'/source/src/'+com.detecClass+'.cc')
 fg.commonReplace(temPath+'/include/MyDetectorConstruction.hh',  outPath+'/source/include/'+com.detecClass+'.hh')
 
-genDet = com.genDet(config)
+genDet = com.genDet(config, temPath+'/src/MyDetectorTemplate.cc')
 fg.detReplace(genDet, outPath+'/source/include/'+com.detecClass+'.hh')
 fg.detReplace(genDet, outPath+'/source/src/'+com.detecClass+'.cc')
 
@@ -70,6 +69,10 @@ fg.commonReplace(temPath+'/include/MyEventAction.hh',  outPath+'/source/include/
 
 fg.commonReplace(temPath+'/src/MyPrimaryGeneratorAction.cc',      outPath+'/source/src/'+com.gunClass+'.cc')
 fg.commonReplace(temPath+'/include/MyPrimaryGeneratorAction.hh',  outPath+'/source/include/'+com.gunClass+'.hh')
+
+genGun = com.genGun(config, temPath+'/src/MyPrimaryGeneratorTemplate.cc')
+fg.gunReplace(genGun, outPath+'/source/include/'+com.gunClass+'.hh')
+fg.gunReplace(genGun, outPath+'/source/src/'+com.gunClass+'.cc')
 
 #===========================
 # Gen runclass file
@@ -118,15 +121,6 @@ open(outPath+'/source/RootFileIO.cc', "wb").write(open(temPath+'/RootFileIO.cc',
 open(outPath+'/source/RootFileIO.C', "wb").write(open(temPath+'/RootFileIO.C', "rb").read())
 
 open(outPath+'/source/xml/selection.xml', "wb").write(open(temPath+'/xml/selection.xml', "rb").read())
-
-
-
-
-
-
-
-
-
 
 
 

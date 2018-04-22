@@ -13,8 +13,8 @@ public:
 
   virtual void GeneratePrimaries(G4Event *);
 
-private:
-  G4ParticleGun *fParticleGun; 
+$gunIncFunc$
+
 };
 
 #endif

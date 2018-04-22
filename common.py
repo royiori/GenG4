@@ -16,7 +16,6 @@ stepClass     = ''
 stackClass    = '' 
 trackClass    = '' 
 analysisClass = '' 
-detTemplate = []
 
 # read as configure
 def readTags(key, path) :
@@ -43,43 +42,8 @@ def readTags(key, path) :
     file.close()
     return mesg
 
-# class for read the template
-class ReadDetTemplate : 
-    detSrcVis = ''
-    detIniFunc_Box = ''
-    detSrcIni_Box = ''
-    detSrcVol_Box = ''
-    detMesIniDef_Box = ''
-    detMesSrcDef_Box = ''
-    detMesSrcDel_Box = ''
-    detMesSrcFunc_Box = ''
 
-    def __init__(self, path) :
-        self.detSrcVis = readTags('detSrcVis', path)
-        self.detIniFunc_Box = readTags('detIniFunc_Box', path)
-        self.detSrcIni_Box = readTags('detSrcIni_Box', path)
-        self.detSrcVol_Box = readTags('detSrcVol_Box', path)
-        self.detMesIniDef_Box = readTags('detMesIniDef_Box', path)
-        self.detMesSrcDef_Box = readTags('detMesSrcDef_Box', path)
-        self.detMesSrcDel_Box = readTags('detMesSrcDel_Box', path)
-        self.detMesSrcFunc_Box = readTags('detMesSrcFunc_Box', path)
 
-    def getDetSrcVis(self):
-        return self.detSrcVis
-    def getDetIniFunc_Box(self) :
-        return self.detIniFunc_Box
-    def getDetSrcIni_Box(self) :
-        return self.detSrcIni_Box
-    def getDetSrcVol_Box(self) :
-        return self.detSrcVol_Box
-    def getDetMesIniDef_Box(self) :
-        return self.detMesIniDef_Box
-    def getDetMesSrcDef_Box(self) : 
-        return self.detMesSrcDef_Box
-    def getDetMesSrcDel_Box(self) :
-        return self.detMesSrcDel_Box
-    def getDetMesSrcFunc_Box(self) :
-        return self.detMesSrcFunc_Box
 
 
 # each detector parameters
@@ -106,7 +70,7 @@ class detPar:
     detMesSrcDel = ''
     detMesSrcFunc= ''
    
-    def __init__(self, config, n):  
+    def __init__(self, config, n, path):  
         self.id = config.get("detector", "BodyID"+n)
         self.name = config.get("detector", "BodyName"+n)
         self.matt = config.get("detector", "BodyMatt"+n)
@@ -120,15 +84,13 @@ class detPar:
             self.size.append(config.get("detector", "BodySizeA"+n))
             self.size.append(config.get("detector", "BodySizeA"+n))
             self.size.append(config.get("detector", "BodySizeA"+n))
-            self.detIniFunc = detTemplate.getDetIniFunc_Box()
-            self.detSrcIni  = detTemplate.getDetSrcIni_Box()
-            self.detSrcVol  = detTemplate.getDetSrcVol_Box()
-            self.detMesIniDef = detTemplate.getDetMesIniDef_Box()
-            self.detMesSrcDef = detTemplate.getDetMesSrcDef_Box()
-            self.detMesSrcDel = detTemplate.getDetMesSrcDel_Box()
-            self.detMesSrcFunc= detTemplate.getDetMesSrcFunc_Box()
-
-        self.detSrcVis = detTemplate.getDetSrcVis()
+            self.detIniFunc = readTags('detIniFunc_Box', path)
+            self.detSrcIni  = readTags('detSrcIni_Box', path)
+            self.detSrcVol  = readTags('detSrcVol_Box', path)
+            self.detMesIniDef = readTags('detMesIniDef_Box', path)
+            self.detMesSrcDef = readTags('detMesSrcDef_Box', path)
+            self.detMesSrcDel = readTags('detMesSrcDel_Box', path)
+            self.detMesSrcFunc= readTags('detMesSrcFunc_Box', path)
 
         self.pos.append(config.get("detector", "BodyPosX"+n))
         self.pos.append(config.get("detector", "BodyPosY"+n))
@@ -213,10 +175,10 @@ class genDet:
     nDetBody = 0
     detParList = []
 
-    def __init__(self, config):  
+    def __init__(self, config, path):  
         self.nDetBody = int(config.get("detector", "NBody"))
         for i in range(1, self.nDetBody+1):
-            self.detParList.append(detPar(config, str(i)))
+            self.detParList.append(detPar(config, str(i), path))
         for i in range(0, self.nDetBody):
             print(self.detParList[i].GetID())
 
@@ -273,3 +235,33 @@ class genDet:
         for i in range(0, self.nDetBody) :
             genstr += self.detParList[i].genDetMesSrcFunc()
         return genstr
+
+
+# generate gun contents for replacement
+class genGun:
+    type = 0
+    gunIncFunc = ''
+    gunSrcIni  = ''
+    gunSrcAct  = ''
+
+    def __init__(self, config, path):  
+        self.type = config.get("gun", "Type")
+        if(self.type == 'mono') :
+            Particle = config.get("gun", "Particle")
+            Energy   = config.get("gun", "Energy")
+            Position = config.get("gun", "Position")
+            Direction = config.get("gun", "Direction")
+            self.gunIncFunc = readTags('gunIncFunc_mono', path)
+            self.gunSrcIni  = readTags('gunSrcIni_mono', path)
+            self.gunSrcAct  = readTags('gunSrcAct_mono', path)
+            self.gunSrcIni.replace('gunSrcIni_Particle',Particle)
+            self.gunSrcIni.replace('gunSrcIni_Energy',Energy)
+            self.gunSrcIni.replace('gunSrcIni_Position',Position)
+            self.gunSrcIni.replace('gunSrcIni_Direction',Direction)
+    
+    def genGunIncFunc(self):
+        return self.gunIncFunc
+    def genGunSrcIni(self):
+        return self.gunSrcIni
+    def genGunSrcAct(self):
+        return self.gunSrcAct
