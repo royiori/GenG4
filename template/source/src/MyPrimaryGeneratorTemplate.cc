@@ -1,6 +1,17 @@
 #gunIncFunc_mono#
+  void SetRootFileName(G4String fileName) {fRootFileName = fileName;};
+  void SetTxtFileName(G4String fileName)  {fTxtFileName  = fileName;};
+  void SetProgFileName(G4String fileName) {fProgFileName = fileName;};
+
+  G4String GetRootFileName() {return fRootFileName;}
+  G4String GetTxtFileName()  {return fTxtFileName;}
+  G4String GetProgressFileName() {return fProgFileName;}
+
 private:
-  G4ParticleGun *fParticleGun; 
+  G4ParticleGun *fParticleGun;
+  G4String fRootFileName;
+  G4String fTxtFileName;
+  G4String fProgFileName;
 #end#
 #gunSrcIni_mono#
   G4int nofParticles = 1;
@@ -10,12 +21,24 @@ private:
   G4ParticleDefinition* particle = particleTable->FindParticle("$gunSrcIni_Particle$");
 
   fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleEnergy('$gunSrcIni_Energy$');
-  fParticleGun->SetParticlePosition(G4ThreeVector('$gunSrcIni_Position'));
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector('gunSrcIni_Direction'));
+  fParticleGun->SetParticleEnergy($gunSrcIni_Energy$);
+  fParticleGun->SetParticlePosition(G4ThreeVector($gunSrcIni_Position$));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector($gunSrcIni_Direction$));
 #end#
 #gunSrcAct_mono#
   fParticleGun->GeneratePrimaryVertex(anEvent);
+#end#
+#gunMesIniDef_mono#
+
+#end#
+#gunMesSrcDef_mono#
+
+#end#
+#gunMesSrcDel_mono#
+
+#end#
+#gunMesSrcFunc_mono#
+
 #end#
 
 
@@ -45,4 +68,15 @@ private:
 #gunSrcAct_gps#
   fParticleSourceGun->GeneratePrimaryVertex(anEvent);
 #end#
+#gunMesIniDef_gps#
 
+#end#
+#gunMesSrcDef_gps# 
+
+#end#
+#gunMesSrcDel_gps# 
+
+#end#
+#gunMesSrcFunc_gps# 
+
+#end#

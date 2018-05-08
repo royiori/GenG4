@@ -10,6 +10,7 @@ detecClass    = ''
 detmesClass   = ''
 physicsClass  = '' 
 gunClass      = '' 
+gunmesClass   = ''
 runClass      = '' 
 eventClass    = '' 
 stepClass     = '' 
@@ -243,6 +244,10 @@ class genGun:
     gunIncFunc = ''
     gunSrcIni  = ''
     gunSrcAct  = ''
+    gunMesIniDef = ''
+    gunMesSrcDef = ''
+    gunMesSrcDel = ''
+    gunMesSrcFunc= ''
 
     def __init__(self, config, path):  
         self.type = config.get("gun", "Type")
@@ -254,10 +259,14 @@ class genGun:
             self.gunIncFunc = readTags('gunIncFunc_mono', path)
             self.gunSrcIni  = readTags('gunSrcIni_mono', path)
             self.gunSrcAct  = readTags('gunSrcAct_mono', path)
-            self.gunSrcIni.replace('gunSrcIni_Particle',Particle)
-            self.gunSrcIni.replace('gunSrcIni_Energy',Energy)
-            self.gunSrcIni.replace('gunSrcIni_Position',Position)
-            self.gunSrcIni.replace('gunSrcIni_Direction',Direction)
+            self.gunMesIniDef = readTags('gunMesIniDef_mono', path)
+            self.gunMesSrcDef = readTags('gunMesSrcDef_mono', path)
+            self.gunMesSrcDel = readTags('gunMesSrcDel_mono', path)
+            self.gunMesSrcFunc = readTags('gunMesSrcFunc_mono', path)
+            self.gunSrcIni = self.gunSrcIni.replace('$gunSrcIni_Particle$',Particle)
+            self.gunSrcIni = self.gunSrcIni.replace('$gunSrcIni_Energy$',Energy)
+            self.gunSrcIni = self.gunSrcIni.replace('$gunSrcIni_Position$',Position)
+            self.gunSrcIni = self.gunSrcIni.replace('$gunSrcIni_Direction$',Direction)
     
     def genGunIncFunc(self):
         return self.gunIncFunc
@@ -265,3 +274,11 @@ class genGun:
         return self.gunSrcIni
     def genGunSrcAct(self):
         return self.gunSrcAct
+    def genGunMesIniDef(self):
+        return self.gunMesIniDef
+    def genGunMesSrcDef(self):
+        return self.gunMesSrcDef
+    def genGunMesSrcDel(self):
+        return self.gunMesSrcDel
+    def genGunMesSrcFunc(self):
+        return self.gunMesSrcFunc

@@ -75,6 +75,15 @@ fg.gunReplace(genGun, outPath+'/source/include/'+com.gunClass+'.hh')
 fg.gunReplace(genGun, outPath+'/source/src/'+com.gunClass+'.cc')
 
 #===========================
+# Gen gunMes class file
+
+fg.commonReplace(temPath+'/src/MyPrimaryGeneratorMessenger.cc',      outPath+'/source/src/'+com.gunmesClass+'.cc')
+fg.commonReplace(temPath+'/include/MyPrimaryGeneratorMessenger.hh',  outPath+'/source/include/'+com.gunmesClass+'.hh')
+
+fg.gunReplace(genGun, outPath+'/source/include/'+com.gunmesClass+'.hh')
+fg.gunReplace(genGun, outPath+'/source/src/'+com.gunmesClass+'.cc')
+
+#===========================
 # Gen runclass file
 
 fg.commonReplace(temPath+'/src/MyRunAction.cc',      outPath+'/source/src/'+com.runClass+'.cc')

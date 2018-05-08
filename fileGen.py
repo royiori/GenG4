@@ -36,6 +36,7 @@ def readIniMain(config):
     com.detmesClass  = config.get("main", "DetMesgeClass")
     com.physicsClass = config.get("main", "PhysicsClass")
     com.gunClass     = config.get("main", "GunClass")
+    com.gunmesClass  = config.get("main", "GunMesgeClass")
     com.runClass     = config.get("main", "RunClass")
     com.eventClass   = config.get("main", "EventClass")
     com.stepClass    = config.get("main", "StepClass")
@@ -56,6 +57,7 @@ def commonReplaceSub(recIn, recOut):
         filter = filter.replace('$RandomEng$', com.randomEng)  
         filter = filter.replace('$MyActionInitialization$', com.actionClass)  
         filter = filter.replace('$MyPrimaryGeneratorAction$', com.gunClass)  
+        filter = filter.replace('$MyPrimaryGeneratorMessenger$', com.gunmesClass)  
         filter = filter.replace('$MyRunAction$', com.runClass)  
         filter = filter.replace('$MyEventAction$', com.eventClass)  
         filter = filter.replace('$MySteppingAction$', com.stepClass)  
@@ -114,6 +116,10 @@ def gunReplace(genGun, outPath):
         filter = filter.replace('$gunIncFunc$', genGun.genGunIncFunc())  
         filter = filter.replace('$gunSrcIni$', genGun.genGunSrcIni())  
         filter = filter.replace('$gunSrcAct$', genGun.genGunSrcAct())  
+        filter = filter.replace('$gunMesIniDef$', genGun.genGunMesIniDef())  
+        filter = filter.replace('$gunMesSrcDef$', genGun.genGunMesSrcDef())  
+        filter = filter.replace('$gunMesSrcDel$', genGun.genGunMesSrcDel())  
+        filter = filter.replace('$gunMesSrcFunc$', genGun.genGunMesSrcFunc())  
 
         srcOut.append(filter)  
 

@@ -2,6 +2,32 @@
     "python.formatting.provider": "autopep8",
     "python.linting.pylintEnabled": false,
     "files.associations": {
-        "ios": "cpp"
+        "ios": "cpp",
+        "iosfwd": "c",
+        "bitset": "c",
+        "iterator": "cpp",
+        "string": "cpp",
+        "iostream": "c",
+        "istream": "c",
+        "ostream": "cpp",
+        "__tree": "cpp",
+        "initializer_list": "cpp",
+        "map": "cpp",
+        "utility": "cpp",
+        "__locale": "cpp",
+        "locale": "cpp",
+        "atomic": "cpp",
+        "system_error": "cpp",
+        "memory": "cpp",
+        "algorithm": "cpp",
+        "__bit_reference": "cpp",
+        "__functional_base": "cpp",
+        "chrono": "cpp",
+        "functional": "cpp",
+        "limits": "cpp",
+        "ratio": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "typeinfo": "cpp"
     }
 }

@@ -23,18 +23,17 @@ $MyPrimaryGeneratorAction$::$MyPrimaryGeneratorAction$()
 $gunSrcIni$
 
   //create a messenger for this class
-  fGunMessenger = new MyPrimaryGeneratorMessenger(this);
+  fGunMessenger = new $MyPrimaryGeneratorMessenger$(this);
 
-  fRootFileName = G4String("./root/tmp.root");
-  fTxtFileName  = G4String("./gif/tmp.txt");
-  fProgFileName = G4String("./gif/progress.txt");
+  fRootFile = G4String("./root/tmp.root");
+  fTxtFile  = G4String("./gif/tmp.txt");
+  fProgFile = G4String("./gif/progress.txt");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 $MyPrimaryGeneratorAction$::~$MyPrimaryGeneratorAction$()
 {
-  delete fParticleGun;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

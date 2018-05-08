@@ -5,6 +5,8 @@
 #include "G4ParticleGun.hh"
 #include "globals.hh"
 
+#include "$MyPrimaryGeneratorMessenger$.hh"
+
 class $MyPrimaryGeneratorAction$ : public G4VUserPrimaryGeneratorAction
 {
 public:
@@ -13,7 +15,13 @@ public:
 
   virtual void GeneratePrimaries(G4Event *);
 
+  $MyPrimaryGeneratorMessenger$ *fGunMessenger;
+
 $gunIncFunc$
+
+  G4String fRootFile;
+  G4String fTxtFile;
+  G4String fProgFile;
 
 };
 

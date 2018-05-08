@@ -27,7 +27,7 @@ private:
   G4UIdirectory *fMyDirectory;
   G4UIdirectory *fDetDirectory;
 
-$detMesIniDef$ 
+$detMesIniDef$
 
   G4UIcmdWithoutParameter *fUpdateCmd;
 };
