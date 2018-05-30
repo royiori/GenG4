@@ -3,6 +3,8 @@
 headStr = ''
 
 mainfilename  = '' 
+G4LibPath     = ''
+QTLibPath     = ''
 addVerbose    = '' 
 randomEng     = '' 
 actionClass   = '' 

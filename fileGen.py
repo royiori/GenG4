@@ -29,6 +29,8 @@ def saveArray(path, records):
 
 def readIniMain(config):
     com.mainfilename = config.get("main", "EntryFuncName")
+    com.G4LibPath    = config.get("main", "G4LibPath")
+    com.QTLibPath    = config.get("main", "QTLibPath")
     com.addVerbose   = config.get("main", "AddUsrVerbose") 
     com.randomEng    = config.get("main", "RandomEngine")
     com.actionClass  = config.get("main", "ActionClass")
@@ -49,6 +51,8 @@ def commonReplaceSub(recIn, recOut):
     for line in recIn:
         filter = line
         filter = filter.replace('$MAINENTRYS$', com.mainfilename)  
+        filter = filter.replace('$G4LIBPATH$', com.G4LibPath)  
+        filter = filter.replace('$QTLIBPATH$', com.QTLibPath)  
         filter = filter.replace('$MyActionInitialization$', com.actionClass)  
         filter = filter.replace('$MyDetectorConstruction$', com.detecClass)  
         filter = filter.replace('$MyDetectorMessenger$', com.detmesClass)

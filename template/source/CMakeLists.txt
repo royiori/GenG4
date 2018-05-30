@@ -42,9 +42,9 @@ set(CMAKE_MACOSX_RPATH 1)
 
 # the RPATH to be used when building  
 set(CMAKE_BUILD_RPATH 
-#   "/Users/liuqian/Work/work/geant4/examples-4.10.03.p03-build/extended/persistency/P01" 
-   "/Users/liuqian/Work/src/programs/geant/geant4.10.03.p03-install/lib" 
-   "/Users/liuqian/Applications/Qt5.6.0/5.6/clang_64//lib/")
+  $G4LIBPATH$
+  $QTLIBPATH$
+)
 
 #----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
