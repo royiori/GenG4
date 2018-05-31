@@ -24,6 +24,7 @@
   fDetPar[$detSrcIni_detID$]->visAtt->SetForceSolid($detSrcIni_vSolid$);
   fDetPar[$detSrcIni_detID$]->Material = NULL;
   fDetPar[$detSrcIni_detID$]->Region = NULL;
+  SetMaterial($detSrcIni_detID$, fDetPar[$detSrcIni_detID$]->Matt);
 #end#
 #detSrcVol_Box#
   fSolid[$detSrcVol_detID$]  = new G4Box(fDetPar[$detSrcVol_detID$]->Name, fDetPar[$detSrcVol_detID$]->Siz[0], fDetPar[$detSrcVol_detID$]->Siz[1], fDetPar[$detSrcVol_detID$]->Siz[2]);
