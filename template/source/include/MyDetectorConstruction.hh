@@ -41,6 +41,7 @@ public:
     Material = 0;
     visAtt = 0;
     Region = 0;
+    RegionName = "";
   }
 
   virtual ~MyDetectorParameters(){};
@@ -54,6 +55,7 @@ public:
   G4Material *Material;
   G4VisAttributes *visAtt;
   G4Region *Region;
+  G4String RegionName;
 };
 
 

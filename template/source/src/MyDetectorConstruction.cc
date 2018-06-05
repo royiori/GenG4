@@ -27,6 +27,7 @@
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
 #include "G4UnitsTable.hh"
+#include "G4SDManager.hh"
 
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
@@ -34,6 +35,7 @@
 
 #include "$MyDetectorConstruction$.hh"
 #include "$MyDetectorMessenger$.hh"
+$detSrcInc$
 
 $MyDetectorConstruction$::$MyDetectorConstruction$()
     : G4VUserDetectorConstruction()
@@ -42,6 +44,7 @@ $MyDetectorConstruction$::$MyDetectorConstruction$()
     G4cout << "====>$MyDetectorConstruction$::$MyDetectorConstruction$()" << G4endl;
 
   fStepLimit = 0;
+  checkOverlaps = 0;
   for (int i = 0; i < SIZE; i++) fDetPar[i] = new MyDetectorParameters();
   for (int i = 0; i < SIZE; i++) fSolid[i] = NULL;
   for (int i = 0; i < SIZE; i++) fLogic[i] = NULL;
@@ -96,6 +99,9 @@ G4VPhysicalVolume *$MyDetectorConstruction$::DefineVolumes()
   // Define volume
 
 $detSrcVol$
+
+  G4SDManager* SDManager = G4SDManager::GetSDMpointer();
+$detSrcSD$
 
 $detSrcVis$
 

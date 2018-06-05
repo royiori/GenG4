@@ -15,11 +15,6 @@
 
 class SimEvent;
 
-const int NX = 31;
-const int NY = 31;
-const double XStep = 0.08;
-const double YStep = 0.08;
-
 class MyAnalysisManager
 {
    public:
@@ -30,10 +25,6 @@ class MyAnalysisManager
 
       MyAnalysisManager();
       ~MyAnalysisManager();
-      //void Book();
-      //void Fill(G4int EID,G4int PID,G4int TID,G4double prex,G4double prey,G4double prez,
-      //                 G4double postx,G4double posty,G4double postz,G4double Edep,
-      //                 G4double Ek);
 
       void BeginOfEventAction(const G4Event* evt);
       void EndOfEventAction(const G4Event* evt);
@@ -44,14 +35,13 @@ class MyAnalysisManager
       SimEvent* GetSimEvent() { return fEvent; }
 
    private:
-      G4bool fFactoryOn;
       G4String fFileName;
 
       FILE * outfile;
       TFile* fRootFp;
       TTree* fTree;
-      SimEvent* fEvent;
 
+      SimEvent* fEvent;
 
       static MyAnalysisManager* fInstance;
 

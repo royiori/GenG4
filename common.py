@@ -63,15 +63,23 @@ class detPar:
     vis  = ''
     ven  = ''
     vsd  = ''
+    sdclass = ''
+    hitclass = ''
     
     detIniFunc = ''
+    detSrcInc  = ''
     detSrcIni  = ''
     detSrcVol  = ''
     detSrcVis  = ''
+    detSrcSD   = ''
     detMesIniDef = ''
     detMesSrcDef = ''
     detMesSrcDel = ''
     detMesSrcFunc= ''
+    dataIncSDClear= ''
+
+    anaIncDef = ''
+    anaIncFunc= ''
    
     def __init__(self, config, n, path):  
         self.id = config.get("detector", "BodyID"+n)
@@ -94,6 +102,12 @@ class detPar:
             self.detMesSrcDef = readTags('detMesSrcDef_Box', path)
             self.detMesSrcDel = readTags('detMesSrcDel_Box', path)
             self.detMesSrcFunc= readTags('detMesSrcFunc_Box', path)
+        self.detSrcInc = readTags('detSrcInc', path)    
+        self.detSrcVis = readTags('detSrcVis', path)
+        self.detSrcSD  = readTags('detSrcSD', path)
+        self.dataIncSDDef = readTags('dataIncSDDef', path)
+        self.dataIncSDFunc= readTags('dataIncSDFunc', path)
+        self.dataIncSDClear=readTags('dataIncSDClear', path)
 
         self.pos.append(config.get("detector", "BodyPosX"+n))
         self.pos.append(config.get("detector", "BodyPosY"+n))
@@ -106,12 +120,21 @@ class detPar:
         self.vis = config.get("detector", "BodyVisAtt"+n)
         self.ven = config.get("detector", "BodyVEnab"+n)
         self.vsd = config.get("detector", "BodyVSold"+n)
+        self.sdclass = config.get("detector", "BodySDClass"+n)
+        self.hitclass = config.get("detector", "BodyHitClass"+n)
+
 
     def GetID(self):  
         return self.id
 
     def GetName(self):
         return self.name
+
+    def GetSDClass(self):
+        return self.sdclass
+
+    def GetHitClass(self):
+        return self.hitclass
     
     def GetIncludeFunc(self):
         genstr = self.detIniFunc
@@ -144,13 +167,31 @@ class detPar:
         genstr = genstr.replace('$detSrcVol_detID$', self.id)
         genstr = genstr.replace('$detSrcVol_detMotherID$', self.mothID)
         genstr = genstr.replace('fLogic[-1]', '0')
+        if(self.mothID == "-1") :
+            genstr = genstr.replace('fDetPar['+self.id+']->Region','//fDetPar['+self.id+']->Region')
         return genstr
     
     def genDetSrcVis(self):
         genstr = self.detSrcVis
         genstr = genstr.replace('$detSrcVol_detID$', self.id)
         return genstr
+
+    def genDetSrcInc(self):
+        if(self.sdclass == 'false') :
+            return ''
+        genstr = self.detSrcInc
+        genstr = genstr.replace('$detSrcInc_SDclass$', self.sdclass)
+        return genstr
     
+    def genDetSrcSD(self):
+        if(self.sdclass == 'false') :
+            return ''
+        genstr = self.detSrcSD
+        genstr = genstr.replace('$detSrcSD_detID$', self.id)
+        genstr = genstr.replace('$detSrcSD_SDClass$', self.sdclass)
+        genstr = genstr.replace('$detSrcSD_SDobj$', self.sdclass+"obj")
+        return genstr
+
     def genDetMesIniDef(self):
         genstr = self.detMesIniDef
         genstr = genstr.replace('$detMesIniDef_detName$', self.name)
@@ -170,6 +211,34 @@ class detPar:
         genstr = self.detMesSrcFunc
         genstr = genstr.replace('$detMesSrcFunc_detName$', self.name)
         genstr = genstr.replace('$detMesSrcFunc_detID$', self.id)
+        return genstr
+
+    def genAnaIncFunc(self) :
+        if(self.sdclass == 'false') : 
+            return ''
+        genstr = self.genAnaIncFunc
+        genstr = genstr.replace()
+        return genstr
+    
+    def genDataIncSDDef(self) :
+        if(self.sdclass == 'false') : 
+            return ''
+        genstr = self.dataIncSDDef
+        genstr = genstr.replace('$dataIncSDDef_SDClass$', self.sdclass)
+        return genstr
+
+    def genDataIncSDFunc(self) :
+        if(self.sdclass == 'false') : 
+            return ''
+        genstr = self.dataIncSDFunc
+        genstr = genstr.replace('$dataIncSDFunc_SDClass$', self.sdclass)
+        return genstr
+
+    def genDataIncSDClear(self) :
+        if(self.sdclass == 'false') : 
+            return ''
+        genstr = self.dataIncSDClear
+        genstr = genstr.replace('$dataIncSDClear_SDClass$', self.sdclass)
         return genstr
 
 
@@ -214,6 +283,18 @@ class genDet:
         for i in range(0, self.nDetBody) :
             genstr += self.detParList[i].genDetSrcVis()
         return genstr
+    
+    def genDetSrcInc(self):
+        genstr = ''
+        for i in range(0, self.nDetBody) :
+            genstr += self.detParList[i].genDetSrcInc()
+        return genstr
+
+    def genDetSrcSD(self):
+        genstr = ''
+        for i in range(0, self.nDetBody) :
+            genstr += self.detParList[i].genDetSrcSD()
+        return genstr
 
     def genDetMesIniDef(self):
         genstr = ''
@@ -238,6 +319,25 @@ class genDet:
         for i in range(0, self.nDetBody) :
             genstr += self.detParList[i].genDetMesSrcFunc()
         return genstr
+
+    def genDataIncSDDef(self) :
+        genstr = ''
+        for i in range(0, self.nDetBody) :
+            genstr += self.detParList[i].genDataIncSDDef()
+        return genstr
+
+    def genDataIncSDFunc(self) : 
+        genstr = ''
+        for i in range(0, self.nDetBody) :
+            genstr += self.detParList[i].genDataIncSDFunc()
+        return genstr
+
+    def genDataIncSDClear(self) :
+        genstr = ''
+        for i in range(0, self.nDetBody) :
+            genstr += self.detParList[i].genDataIncSDClear()
+        return genstr
+
 
 
 # generate gun contents for replacement

@@ -24,6 +24,7 @@
   fDetPar[$detSrcIni_detID$]->visAtt->SetForceSolid($detSrcIni_vSolid$);
   fDetPar[$detSrcIni_detID$]->Material = NULL;
   fDetPar[$detSrcIni_detID$]->Region = NULL;
+  fDetPar[$detSrcIni_detID$]->RegionName = fDetPar[$detSrcIni_detID$]->Name + "_Region";
   SetMaterial($detSrcIni_detID$, fDetPar[$detSrcIni_detID$]->Matt);
 #end#
 #detSrcVol_Box#
@@ -34,12 +35,72 @@
   fPhysc[$detSrcVol_detID$] = new G4PVPlacement(0, 
                                     G4ThreeVector(fDetPar[$detSrcVol_detID$]->Pos[0], fDetPar[$detSrcVol_detID$]->Pos[1], fDetPar[$detSrcVol_detID$]->Pos[2]), 
                                     fLogic[$detSrcVol_detID$], fDetPar[$detSrcVol_detID$]->Name, 
-                                    fLogic[$detSrcVol_detMotherID$], false, 0);
+                                    fLogic[$detSrcVol_detMotherID$], false, checkOverlaps);
 
+  fDetPar[$detSrcVol_detID$]->Region = new G4Region(fDetPar[$detSrcVol_detID$]->RegionName);
+  fDetPar[$detSrcVol_detID$]->Region->AddRootLogicalVolume(fLogic[$detSrcVol_detID$]);
+
+#end#
+
+#detSrcInc#
+#include "$detSrcInc_SDclass$.hh"
 #end#
 #detSrcVis#
   fLogic[$detSrcVol_detID$]->SetVisAttributes(fDetPar[$detSrcVol_detID$]->visAtt);
 #end#
+#detSrcSD#
+  $detSrcSD_SDClass$ *$detSrcSD_SDobj$ = new $detSrcSD_SDClass$("$detSrcSD_SDobj$");
+  SDManager->AddNewDetector($detSrcSD_SDobj$);
+  fLogic[$detSrcSD_detID$]->SetSensitiveDetector($detSrcSD_SDobj$);
+
+#end#
+
+#dataIncSDClear#
+  f$dataIncSDClear_SDClass$Tracks = NULL;
+  f$dataIncSDClear_SDClass$Deposits = NULL;
+#end#
+#dataIncSDDef#
+  TMap *f$dataIncSDDef_SDClass$Tracks;
+  TMap *f$dataIncSDDef_SDClass$Deposits;
+
+#end#
+#dataIncSDFunc#
+  //________________________________
+  // for $dataIncSDFunc_SDClass$ SD
+  void Add$dataIncSDFunc_SDClass$Deposit(Int_t tID, SimDeposit *aDep)
+  {
+    SimTrack *aTrack = Get$dataIncSDFunc_SDClass$Track(tID);
+
+    Int_t Ndep = f$dataIncSDFunc_SDClass$Deposits->GetSize();
+    f$dataIncSDFunc_SDClass$Deposits->Add(new TObjString(Form("%d",Ndep)), aDep);
+
+    aTrack->addDeposit(Ndep, aDep);
+  }
+
+  SimTrack* Get$dataIncSDFunc_SDClass$Track(Int_t tID)
+  {
+    SimTrack* aTrack = (SimTrack *)f$dataIncSDFunc_SDClass$Tracks->GetValue(Form("%d",tID));
+
+    if(aTrack==0) {
+      aTrack = new SimTrack();
+      aTrack->SetTrackID( tID );
+      f$dataIncSDFunc_SDClass$Tracks->Add(new TObjString(Form("%d",tID)), aTrack);
+    }
+    return aTrack;
+  }
+
+  SimDeposit* Get$dataIncSDFunc_SDClass$Deposit(Int_t tID)
+  {
+    SimDeposit* aDeposit = (SimDeposit *)f$dataIncSDFunc_SDClass$Deposits->GetValue(Form("%d", tID));
+    return aDeposit;
+  }
+
+  TMap *Get$dataIncSDFunc_SDClass$TrackMap() {return f$dataIncSDFunc_SDClass$Tracks;}
+  TMap *Get$dataIncSDFunc_SDClass$DepositMap() {return f$dataIncSDFunc_SDClass$Deposits;}
+  
+#end#
+
+
 
 #detMesIniDef_Box#
   G4UIcmdWithADoubleAndUnit* f$detMesIniDef_detName$SizeXCmd;

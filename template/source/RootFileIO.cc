@@ -14,21 +14,24 @@ void ReadRoot();
 
 TString fFileName;
 
-int main(int argc,char** argv)
+int main(int argc, char **argv)
 {
   fFileName = TString("tmp.root");
 
   // initialize ROOT
   TSystem ts;
   gSystem->Load("libSimEventDict");
-  if(argc<2) G4cout << "Missing name of the file to read! Read " << fFileName << " instead."<< G4endl;
-  else fFileName = TString(argv[1]);
+
+  if (argc < 2)
+    G4cout << "Missing name of the file to read! Read " << fFileName << " instead." << G4endl;
+  else
+    fFileName = TString(argv[1]);
 
   ReadRoot();
 
   return 1;
 }
-//  
+//
 //  TFile fo(argv[1]);
 //
 //  std::vector<ExP01TrackerHit*>* hits;
@@ -50,32 +53,17 @@ int main(int argc,char** argv)
 //    }
 //  }
 
-
-
-
-
-void RootFileIO()
-{
-
-//   WriteRoot();
-
-   ReadRoot();
-
-}
-
-
 void WriteRoot()
 {
-  G4cout<<"---> Write to "<<fFileName<<" root file."<<G4endl;
+  G4cout << "---> Write to " << fFileName << " root file." << G4endl;
 
-  TFile * fRootFp = new TFile(fFileName, "recreate");
+  TFile *fRootFp = new TFile(fFileName, "recreate");
 
-  SimEvent* fEvent = new SimEvent();
-  TTree   * fTree1 = new TTree("sim", "Tree of GasTPC events");
-
+  SimEvent *fEvent = new SimEvent();
+  TTree *fTree1 = new TTree("sim", "Tree of GasTPC events");
 
   fTree1->Branch("SimEvent", "SimEvent", &fEvent, 32000, 99);
-  for(int i=0; i<9; i++) fEvent->SetTime(i, 10*i);
+  //for(int i=0; i<9; i++) fEvent->SetTime(i, 10*i);
 
   fTree1->Fill();
   fEvent->Clear();
@@ -86,19 +74,29 @@ void WriteRoot()
 
 void ReadRoot()
 {
-  G4cout<<"---> Read from "<<fFileName<<" root file."<<G4endl;
+  G4cout << "---> Reading from " << fFileName << " root file." << G4endl;
 
-  TFile * fRootFp = new TFile(fFileName);    
-  if(!fRootFp->IsOpen()) {G4cout<<"---> Can't open "<<fFileName<<"."<<G4endl; return;} 
+  TFile *fRootFp = new TFile(fFileName);
+  if (!fRootFp->IsOpen())
+  {
+    G4cout << "---> Can't open " << fFileName << "." << G4endl;
+    return;
+  }
 
-  SimEvent* fEvent = 0;
-  TTree   * fTree1  = (TTree *)fRootFp->Get("sim");
+  SimEvent *fEvent = 0;
+  TTree *fTree1 = (TTree *)fRootFp->Get("sim");
   fTree1->SetBranchAddress("SimEvent", &fEvent);
 
-  fTree1->GetEntry(0);
-  G4cout<<fEvent->GetTime(2)<<G4endl;  
+  G4cout<<"> There are "<<fTree1->GetEntries()<<" events stored."<<G4endl;
+  for(int i=0; i<fTree1->GetEntries(); i++)
+  {
+    G4cout<<"> No. "<<i<<" event: "<<G4endl;
+
+    fTree1->GetEntry(i);
+
+    G4cout<<">     "<<fEvent->GetTrueEnergy()<<G4endl;
+    G4cout<<">     "<<fEvent->GetGasSDTrackMap()->GetSize()<<" tracks"<<G4endl;
+  }
 
   fRootFp->Close();
 }
-
-

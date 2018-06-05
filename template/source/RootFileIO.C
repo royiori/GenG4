@@ -41,7 +41,7 @@ void WriteRoot()
 
 
   fTree1->Branch("SimEvent", "SimEvent", &fEvent, 32000, 99);
-  for(int i=0; i<9; i++) fEvent->SetTime(i, 10*i);
+  //for(int i=0; i<9; i++) fEvent->SetTime(i, 10*i);
 
   fTree1->Fill();
   fEvent->Clear();
@@ -61,7 +61,7 @@ void ReadRoot()
   fTree1->SetBranchAddress("SimEvent", &fEvent);
 
   fTree1->GetEntry(0);
-  G4cout<<fEvent->GetTime(2)<<G4endl;  
+  //G4cout<<fEvent->GetTime(2)<<G4endl;  
 
   fRootFp->Close();
 }

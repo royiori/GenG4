@@ -1,0 +1,35 @@
+Setting client pid to {0}
+SERVER: changeConfig: settings -> {0}
+didOpen: {0}
+didChange: VersionedTextDocumentIdentifier [
+  version = 3
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/template/source/xml/selection.xml"
+]
+didChange: VersionedTextDocumentIdentifier [
+  version = 5
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/template/source/xml/selection.xml"
+]
+didChange: VersionedTextDocumentIdentifier [
+  version = 10
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/template/source/xml/selection.xml"
+]
+didChange: VersionedTextDocumentIdentifier [
+  version = 22
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/template/source/xml/selection.xml"
+]
+didChange: VersionedTextDocumentIdentifier [
+  version = 22
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/template/source/xml/selection.xml"
+]
+didSave: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/template/source/xml/selection.xml"
+]
+SERVER: changeWatchedFiles: size -> {0}
+SERVER: changeWatchedFiles: size -> {0}
+didClose: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/template/source/xml/selection.xml"
+]
+SERVER: changeWatchedFiles: size -> {0}
+SERVER: changeWatchedFiles: size -> {0}
+Shutting down language server
+Stopping language server

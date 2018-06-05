@@ -98,8 +98,9 @@ def detReplace(genDet, outPath):
 
         filter = filter.replace('$detSrcIni$', genDet.genDetSrcIni())  
         filter = filter.replace('$detSrcVol$', genDet.genDetSrcVol())  
+        filter = filter.replace('$detSrcInc$', genDet.genDetSrcInc())  
         filter = filter.replace('$detSrcVis$', genDet.genDetSrcVis())  
-        #filter = filter.replace('$detSrcSD$' , genDet.genDetSrcSD())  
+        filter = filter.replace('$detSrcSD$' , genDet.genDetSrcSD())  
 
         filter = filter.replace('$detMesIniDef$', genDet.genDetMesIniDef())
         filter = filter.replace('$detMesSrcDef$', genDet.genDetMesSrcDef())
@@ -127,4 +128,38 @@ def gunReplace(genGun, outPath):
 
         srcOut.append(filter)  
 
+    saveArray(outPath, srcOut)
+
+
+
+def sdReplace(detPar, outPath) :
+    srcIn = []
+    loadArray(outPath, srcIn)
+
+    srcOut = []
+    for line in srcIn : 
+        filter = line
+        filter = filter.replace('$SDClass$', detPar.GetSDClass()) 
+        filter = filter.replace('$HitClass$', detPar.GetHitClass()) 
+
+        srcOut.append(filter)  
+    
+    saveArray(outPath, srcOut)
+
+
+
+
+def smReplace(genDet, outPath) :
+    srcIn = []
+    loadArray(outPath, srcIn)
+
+    srcOut = []
+    for line in srcIn : 
+        filter = line
+        filter = filter.replace('$DataIncSDDef$', genDet.genDataIncSDDef()) 
+        filter = filter.replace('$DataIncSDFunc$', genDet.genDataIncSDFunc()) 
+        filter = filter.replace('$DataIncSDClear$', genDet.genDataIncSDClear()) 
+
+        srcOut.append(filter)  
+    
     saveArray(outPath, srcOut)
