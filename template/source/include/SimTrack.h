@@ -41,12 +41,7 @@ class SimTrack : public TObject
     double GetExitT() { return exit_t; }
     float GetTrackLength() { return track_length; }
 
-    // == Visible or Deposit Energy Related ==
     float GetEdep() { return tEdep; }
-    float GetEdepX() { return tEdep_x; }
-    float GetEdepY() { return tEdep_y; }
-    float GetEdepZ() { return tEdep_z; }
-    float GetEnergy() { return tEnergy; }
 
     const std::vector<Int_t> GetStepIdx() const { return stepIdx; }
 
@@ -76,12 +71,7 @@ class SimTrack : public TObject
     void SetExitT(double val) { exit_t = val; }
     void SetTrackLength(float val) { track_length = val; }
 
-    // == Visible or Deposit Energy Related ==
     void SetEdep(float val) { tEdep = val; }
-    void SetEdepX(float val) { tEdep_x = val; }
-    void SetEdepY(float val) { tEdep_y = val; }
-    void SetEdepZ(float val) { tEdep_z = val; }
-    void SetEnergy(float val) { tEnergy = val; }
 
     void SetStepIdx(const std::vector<Int_t> &val) { stepIdx = val; }
 
@@ -119,12 +109,7 @@ class SimTrack : public TObject
 
     Float_t track_length;
 
-    // == Visible or Deposit Energy Related ==
     Float_t tEdep;
-    Float_t tEdep_x;
-    Float_t tEdep_y;
-    Float_t tEdep_z;
-    Float_t tEnergy;
 
     std::vector<Int_t> stepIdx;
 
@@ -159,10 +144,6 @@ inline void SimTrack::MyClear()
 
     // == Visible or Deposit Energy Related ==
     tEdep = 0;
-    tEdep_x = 0;
-    tEdep_y = 0;
-    tEdep_z = 0;
-    tEnergy = 0;
 
     stepIdx.clear();
 }

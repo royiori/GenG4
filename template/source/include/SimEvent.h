@@ -30,6 +30,7 @@ public:
 
 public:
   inline void MyClear();
+  inline void MyMapClear(TMap *);
 
 //$DataIncGlobalFunc$
 
@@ -62,5 +63,20 @@ inline void SimEvent::MyClear()
   fPy0 = 0.;
   fPz0 = 0.;
 $DataIncSDClear$
+}
+
+inline void SimEvent::MyMapClear(TMap *mp)
+{
+  TIterator *it = mp->MakeIterator();
+  TObject* tempObj=0;
+  while((tempObj = it->Next()))
+  {
+    TObjString *obj = dynamic_cast<TObjString *>(tempObj);
+    SimTrack* trk = dynamic_cast<SimTrack *>(mp->GetValue(obj));
+    SimDeposit* dep = dynamic_cast<SimDeposit *>(mp->GetValue(obj));
+    if(trk!=NULL) delete trk;
+    if(dep!=NULL) delete dep;
+  }    
+  mp->Clear();
 }
 #endif

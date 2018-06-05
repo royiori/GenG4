@@ -56,12 +56,20 @@
 #end#
 
 #dataIncSDClear#
-  f$dataIncSDClear_SDClass$Tracks = NULL;
-  f$dataIncSDClear_SDClass$Deposits = NULL;
+  if(f$dataIncSDClear_SDClass$Tracks == NULL)
+    f$dataIncSDClear_SDClass$Tracks = new TMap();
+  else
+    MyMapClear(f$dataIncSDClear_SDClass$Tracks);
+
+  if(f$dataIncSDClear_SDClass$Deposits == NULL)
+    f$dataIncSDClear_SDClass$Deposits = new TMap();
+  else
+    MyMapClear(f$dataIncSDClear_SDClass$Deposits);
+
 #end#
 #dataIncSDDef#
-  TMap *f$dataIncSDDef_SDClass$Tracks;
-  TMap *f$dataIncSDDef_SDClass$Deposits;
+  TMap *f$dataIncSDDef_SDClass$Tracks = NULL;
+  TMap *f$dataIncSDDef_SDClass$Deposits = NULL;
 
 #end#
 #dataIncSDFunc#

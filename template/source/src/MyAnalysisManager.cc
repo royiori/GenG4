@@ -38,7 +38,7 @@ void $MyAnalysisManager$::BeginOfRunAction()
 
   fEvent = new SimEvent();
   fTree = new TTree("sim", "Tree of data events");
-  fTree->Branch("SimEvent", "SimEvent", &fEvent, 32000, 99);
+  fTree->Branch("SimEvent", "SimEvent", &fEvent, 32000, 100);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

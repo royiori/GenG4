@@ -103,6 +103,9 @@ G4bool $SDClass$::ProcessHits(G4Step *aStep, G4TouchableHistory *)
     aSimTrack->SetInitX(prePos.x());
     aSimTrack->SetInitY(prePos.y());
     aSimTrack->SetInitZ(prePos.z());
+    //aSimTrack->SetInitT(preStepPoint->GetLocalTime());    //Time since the track was created
+    aSimTrack->SetInitT(preStepPoint->GetGlobalTime()); //Time since the event in which the track belongs was created
+    //aSimTrack->SetInitT(preStepPoint->GetProperTime()); //Proper time in the rest frame of the particle
   }
 
   //------------------------------
@@ -112,12 +115,15 @@ G4bool $SDClass$::ProcessHits(G4Step *aStep, G4TouchableHistory *)
     G4ThreeVector momDir = postStepPoint->GetMomentumDirection();
 
     SimTrack *aSimTrack = $MyAnalysisManager$::GetInstance()->GetSimEvent()->Get$SDClass$Track(trackID);
-    aSimTrack->SetExitX(postPos.x());
-    aSimTrack->SetExitY(postPos.y());
-    aSimTrack->SetExitZ(postPos.z());
     aSimTrack->SetExitPx(momDir.x());
     aSimTrack->SetExitPy(momDir.y());
     aSimTrack->SetExitPz(momDir.z());
+    aSimTrack->SetExitX(postPos.x());
+    aSimTrack->SetExitY(postPos.y());
+    aSimTrack->SetExitZ(postPos.z());
+    //aSimTrack->SetExitT(postStepPoint->GetLocalTime());
+    aSimTrack->SetExitT(postStepPoint->GetGlobalTime());
+    //aSimTrack->SetExitT(postStepPoint->GetProperTime());
   }
 
   //------------------------------
@@ -126,9 +132,11 @@ G4bool $SDClass$::ProcessHits(G4Step *aStep, G4TouchableHistory *)
   aDep->SetPreX(prePos.x());
   aDep->SetPreY(prePos.y());
   aDep->SetPreZ(prePos.z());
+  aDep->SetPreT(preStepPoint->GetGlobalTime());
   aDep->SetPostX(postPos.x());
   aDep->SetPostY(postPos.y());
   aDep->SetPostZ(postPos.z());
+  aDep->SetPostT(postStepPoint->GetGlobalTime());
   aDep->SetStepLength(stepl);
   aDep->SetEdep(dE);
   aDep->SetTrackID(trackID);
