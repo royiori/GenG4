@@ -41,6 +41,9 @@
   fDetPar[$detSrcVol_detID$]->Region->AddRootLogicalVolume(fLogic[$detSrcVol_detID$]);
 
 #end#
+#detSrcStepLimit#
+  fLogic[$detSrcStepLimit_detID$]->SetUserLimits(new G4UserLimits($detSrcStepLimit_stepLimit$));
+#end#
 
 #detSrcInc#
 #include "$detSrcInc_SDclass$.hh"

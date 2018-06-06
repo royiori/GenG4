@@ -65,6 +65,7 @@ class detPar:
     vsd  = ''
     sdclass = ''
     hitclass = ''
+    stepLimit = ''
     
     detIniFunc = ''
     detSrcInc  = ''
@@ -72,6 +73,7 @@ class detPar:
     detSrcVol  = ''
     detSrcVis  = ''
     detSrcSD   = ''
+    detSrcStepLimit = ''
     detMesIniDef = ''
     detMesSrcDef = ''
     detMesSrcDel = ''
@@ -105,6 +107,8 @@ class detPar:
         self.detSrcInc = readTags('detSrcInc', path)    
         self.detSrcVis = readTags('detSrcVis', path)
         self.detSrcSD  = readTags('detSrcSD', path)
+        self.detSrcStepLimit = readTags('detSrcStepLimit', path)
+
         self.dataIncSDDef = readTags('dataIncSDDef', path)
         self.dataIncSDFunc= readTags('dataIncSDFunc', path)
         self.dataIncSDClear=readTags('dataIncSDClear', path)
@@ -122,6 +126,7 @@ class detPar:
         self.vsd = config.get("detector", "BodyVSold"+n)
         self.sdclass = config.get("detector", "BodySDClass"+n)
         self.hitclass = config.get("detector", "BodyHitClass"+n)
+        self.stepLimit= config.get("detector", "BodyStepLmt"+n)
 
 
     def GetID(self):  
@@ -162,28 +167,38 @@ class detPar:
         genstr = genstr.replace('$detSrcIni_vSolid$', self.vsd)
         return genstr
 
-    def genDetSrcVol(self):
+    def genDetSrcVol(self) :
         genstr = self.detSrcVol
         genstr = genstr.replace('$detSrcVol_detID$', self.id)
         genstr = genstr.replace('$detSrcVol_detMotherID$', self.mothID)
         genstr = genstr.replace('fLogic[-1]', '0')
         if(self.mothID == "-1") :
             genstr = genstr.replace('fDetPar['+self.id+']->Region','//fDetPar['+self.id+']->Region')
+        genstr += self.genDetSrcStepLimit()
         return genstr
+
+    def genDetSrcStepLimit(self) :
+        if(self.stepLimit == 'false') :
+            return ''
+        genstr = self.detSrcStepLimit
+        genstr = genstr.replace('$detSrcStepLimit_detID$', self.id)
+        genstr = genstr.replace('$detSrcStepLimit_stepLimit$', self.stepLimit)
+        return genstr
+
     
-    def genDetSrcVis(self):
+    def genDetSrcVis(self) :
         genstr = self.detSrcVis
         genstr = genstr.replace('$detSrcVol_detID$', self.id)
         return genstr
 
-    def genDetSrcInc(self):
+    def genDetSrcInc(self) :
         if(self.sdclass == 'false') :
             return ''
         genstr = self.detSrcInc
         genstr = genstr.replace('$detSrcInc_SDclass$', self.sdclass)
         return genstr
     
-    def genDetSrcSD(self):
+    def genDetSrcSD(self) :
         if(self.sdclass == 'false') :
             return ''
         genstr = self.detSrcSD
@@ -192,22 +207,22 @@ class detPar:
         genstr = genstr.replace('$detSrcSD_SDobj$', self.sdclass+"obj")
         return genstr
 
-    def genDetMesIniDef(self):
+    def genDetMesIniDef(self) :
         genstr = self.detMesIniDef
         genstr = genstr.replace('$detMesIniDef_detName$', self.name)
         return genstr
     
-    def genDetMesSrcDef(self):
+    def genDetMesSrcDef(self) :
         genstr = self.detMesSrcDef
         genstr = genstr.replace('$detMesSrcDef_detName$', self.name)
         return genstr
     
-    def genDetMesSrcDel(self):
+    def genDetMesSrcDel(self) :
         genstr = self.detMesSrcDel
         genstr = genstr.replace('$detMesSrcDel_detName$', self.name)
         return genstr
 
-    def genDetMesSrcFunc(self):
+    def genDetMesSrcFunc(self) :
         genstr = self.detMesSrcFunc
         genstr = genstr.replace('$detMesSrcFunc_detName$', self.name)
         genstr = genstr.replace('$detMesSrcFunc_detID$', self.id)
