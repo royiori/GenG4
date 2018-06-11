@@ -1,0 +1,72 @@
+<template class="task-template">
+  <section id="setClass-section" class="section js-section u-category-ProjectInfo">
+    <header class="section-header">
+      <div class="section-wrapper">
+        <h1>
+          <svg class="section-icon">
+            <use xlink:href="assets/img/icons.svg#icon-windows"></use>
+          </svg>
+          Classes and filename settings
+        </h1>
+        <h3>设置类名及文件名</h3>
+      </div>
+    </header>
+
+    <div class="demo">
+      <div class="demo-wrapper">
+        <button id="setClass-basic" class="js-container-target demo-toggle-button">Set basic features
+          <div class="demo-meta u-avoid-clicks">设置基本特性</div>
+        </button>
+        <div class="demo-box">
+          <div class="demo-controls">
+          </div>
+
+          <table>
+            <tr>
+              <td><p> Set the default verbose output control level:</p></td>
+              <td><div class="dropdown" id="AddUsrVerbose"></div></td>
+            </tr>
+            <tr>
+              <td><p> Set the Random Engine:</p></td>
+              <td><div class="dropdown" id="RandomEngine"></div></td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="demo">
+        <div class="demo-wrapper">
+          <button id="setClass-name" class="js-container-target demo-toggle-button">Set the name of each Class
+            <div class="demo-meta u-avoid-clicks">设置类名(文件名与之相同)</div>
+          </button>
+          <div class="demo-box">
+            <div class="demo-controls">
+            </div>
+            <table>
+              
+            <tr><td><p> Action Initialization:</p></td><td> <input type="text" class="ini-need-store" id="ActionClass" required pattern="[A-Z][0-9]" />   </td></tr>   
+            <tr><td><p> Analysis Manager:     </p></td><td> <input type="text" class="ini-need-store" id="AnalysisClass" required pattern="[A-Z][0-9]" /> </td></tr>
+            <tr><td><p> Detector Construction:</p></td><td> <input type="text" class="ini-need-store" id="DetectorClass" required pattern="[A-Z][0-9]" /> </td></tr>
+            <tr><td><p> Detector Messenger:   </p></td><td> <input type="text" class="ini-need-store" id="DetMesgeClass" required pattern="[A-Z][0-9]" /> </td></tr>
+            <tr><td><p> Physics Process:      </p></td><td> <input type="text" class="ini-need-store" id="PhysicsClass" required pattern="[A-Z][0-9]" />  </td></tr>  
+            <tr><td><p> Primary Generator:    </p></td><td> <input type="text" class="ini-need-store" id="GunClass" required pattern="[A-Z][0-9]" />      </td></tr>     
+            <tr><td><p> Primary Messenger:    </p></td><td> <input type="text" class="ini-need-store" id="GunMesgeClass" required pattern="[A-Z][0-9]" /> </td></tr>
+            <tr><td><p> Run Class:            </p></td><td> <input type="text" class="ini-need-store" id="RunClass" required pattern="[A-Z][0-9]" />      </td></tr>  
+            <tr><td><p> Event Class:          </p></td><td> <input type="text" class="ini-need-store" id="EventClass" required pattern="[A-Z][0-9]" />    </td></tr>    
+            <tr><td><p> Stack Class:          </p></td><td> <input type="text" class="ini-need-store" id="StackClass" required pattern="[A-Z][0-9]" />    </td></tr>    
+            <tr><td><p> Track Class:          </p></td><td> <input type="text" class="ini-need-store" id="TrackClass" required pattern="[A-Z][0-9]" />    </td></tr>    
+            <tr><td><p> Step Class:           </p></td><td> <input type="text" class="ini-need-store" id="StepClass" required pattern="[A-Z][0-9]" />     </td></tr>   
+              
+            </table>
+          </div>
+        </div>
+      </div>
+
+    <script type="text/javascript">
+    </script>
+
+  </section>
+</template>

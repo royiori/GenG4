@@ -1,0 +1,34 @@
+<template class="task-template">
+  <div id="about-modal" class="about modal">
+    <div class="about-wrapper">
+      <header class="about-header">
+        <img class="about-logo" src="assets/img/about.png" srcset="assets/img/about.png 1x, assets/img/about@2x.png 2x" alt="Electron API Demos">
+      </header>
+      <main class="about-sections">
+        <section class="about-section play-along">
+          <h2>Introduction</h2>
+            <p>Use the Geant4 auto-generator to generate a Geant4 app of your own. The GenG4<span class="u-visible-to-screen-reader">(opens in new window)</span></a> app is a good start point to start a Geant4 simulation. You'll need <a href="https://electronjs.org/docs">Electron<span class="u-visible-to-screen-reader">(opens in new window)</span></a> and <a href="http://geant4.web.cern.ch">Geant4<span class="u-visible-to-screen-reader">(opens in new window)</span></a> on your computer to do this. Follow the instruction to install them and then you can start this app by: </p>
+<pre><code class="language-bash">$ cd GenG4/Electron
+$ npm install
+$ npm start
+</code></pre>
+        </section>
+        <section class="about-section about-code">
+          <h2>About the Code</h2>
+            <p>The code of this app has been organized with ease of navigation in Geant4.</p>
+
+            <p>Nearly the main features of Geant4 have been included. Currently it's designed for Geant4.10.03p01. </p>
+
+            <p>Any comments or suggestions are welcome. </p>
+            
+            <p>Author: liuqian AT ucas.ac.cn.</p>
+        </section>
+        <footer class="about-section footer">
+          <div class="rainbow-button-wrapper">
+            <button id="get-started" class="about-button modal-hide">Get Started</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+</template>

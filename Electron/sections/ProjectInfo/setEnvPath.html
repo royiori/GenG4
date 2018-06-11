@@ -1,0 +1,54 @@
+<template class="task-template">
+  <section id="setEnvPath-section" class="section js-section u-category-ProjectInfo">
+    <header class="section-header">
+      <div class="section-wrapper">
+        <h1>
+          <svg class="section-icon">
+            <use xlink:href="assets/img/icons.svg#icon-windows"></use>
+          </svg>
+          Project and Enviroment settings
+        </h1>
+        <h3> 设置项目信息及环境变量 </h3>
+
+        <p></p>
+      </div>
+    </header>
+
+    <div class="demo">
+      <div class="demo-wrapper">
+        <button id="setEnvPath-main-func-name" class="js-container-target demo-toggle-button">Set the name of the main function
+          <div class="demo-meta u-avoid-clicks">设置主函数名称</div>
+        </button>
+        <div class="demo-box">
+          <div class="demo-controls">
+          </div>
+          <p> Set the name of the main function:
+            <input type="text" class="ini-need-store" id="EntryFuncName" required pattern="[A-Z][0-9]" maxlength="12" />
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-wrapper">
+        <button id="setEnvPath-env-path" class="js-container-target demo-toggle-button">Set enviroment path
+          <div class="demo-meta u-avoid-clicks">设置环境变量</div>
+        </button>
+        <div class="demo-box">
+          <div class="demo-controls">
+          </div>
+          <p> Set the path of the G4 library:
+            <input type="text" class="ini-need-store" id="G4LibPath" required />
+          </p>
+          <p> Set the path of the QT library:
+            <input type="text" class="ini-need-store" id="QTLibPath" required />
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+    </script>
+
+  </section>
+</template>

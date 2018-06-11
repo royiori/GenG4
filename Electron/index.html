@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/nativize.css">
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/about.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <link rel="stylesheet" href="assets/css/section.css">
+  <link rel="stylesheet" href="assets/css/demo.css">
+  <link rel="stylesheet" href="assets/css/github.css">
+   <link rel="stylesheet" href="node_modules/chosen-js/chosen.css">
+
+  <link rel="import" href="sections/about.html">
+  <link rel="import" href="sections/ProjectInfo/setEnvPath.html">
+  <link rel="import" href="sections/ProjectInfo/setClass.html">
+  <link rel="import" href="sections/Physics/setPhysics.html">
+  <link rel="import" href="sections/Detector/setMaterial.html">
+  <link rel="import" href="sections/Detector/setDetector.html">
+
+  <script type="text/javascript" src="./script/jquery-3.2.1.min.js"></script>
+  <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
+  <script type="text/javascript" src="./node_modules/chosen-js/chosen.jquery.js"></script>
+  <script type="text/javascript" src="./assets/variable.js"></script>
+</head>
+<body>
+
+  <nav class="nav js-nav">
+    <header class="nav-header">
+      <h1 class="nav-title">Geant4 <strong>Generator</strong></h1>
+      <svg class="nav-header-icon"><use xlink:href="assets/img/icons.svg#icon-electron"></use></svg>
+    </header>
+    
+
+    <div class="nav-item u-category-ProjectInfo">
+      <h5 class="nav-category">
+        <svg class="nav-icon"><use xlink:href="assets/img/icons.svg#icon-windows"></use></svg>
+        Generatl settings
+      </h5>
+      <button type="button" id="button-setEnvPath" data-section="setEnvPath" class="nav-button">Set the <em>Project & Enviroment</em></button>
+      <button type="button" id="button-setClass" data-section="setClass" class="nav-button">Set the <em>Class & File </em>name</button>
+    </div>
+
+    <div class="nav-item u-category-Physics">
+      <h5 class="nav-category">
+        <svg class="nav-icon"><use xlink:href="assets/img/icons.svg#icon-menu"></use></svg>
+        Physics
+      </h5>
+      <button type="button" id="button-setPhysics" data-section="setPhysics" class="nav-button">Customize the <em>physics processes</em> </button>
+    </div>
+
+    <div class="nav-item u-category-Detector">
+        <h5 class="nav-category">
+          <svg class="nav-icon"><use xlink:href="assets/img/icons.svg#icon-native-ui"></use></svg>
+          Detector
+        </h5>
+        <button type="button" id="button-setMaterial" data-section="setMaterial" class="nav-button">Define a new <em>material</em> </button>
+        <button type="button" id="button-setDetector" data-section="setDetector" class="nav-button">Customize the <em>detector</em></button>
+      </div>
+
+    <footer class="nav-footer">
+      <button type="button" id="button-about" data-modal="about" class="nav-footer-button">About</button>
+    </footer>
+  </nav>
+
+  <main class="content js-content"></main>
+
+  <script>
+    require('./assets/imports')
+    require('./assets/nav')
+    require('./assets/demo-btns')
+    require('./assets/add-dropdown')
+    require('./assets/ini-listener')
+  </script>
+</body>
+ 
+</html>

@@ -1,0 +1,44 @@
+<template class="task-template">
+  <section id="setDetector-section" class="section js-section u-category-Detector">
+    <header class="section-header">
+      <div class="section-wrapper">
+        <h1>
+          <svg class="section-icon">
+            <use xlink:href="assets/img/icons.svg#icon-native-ui"></use>
+          </svg>
+          Construct a detector model
+        </h1>
+        <h3>构造探测器几何结构</h3>
+      </div>
+    </header>
+
+    <div class="demo">
+      <div class="demo-wrapper">
+        <button id="setDetector-nbody" class="js-container-target demo-toggle-button">Set The Number of the Detectors
+          <div class="demo-meta u-avoid-clicks">设置几何体数目</div>
+        </button>
+        <div class="demo-box">
+          <p> Set NBody:
+            <input type="text" class="ini-need-store" id="NBody" required pattern="[0-9]" maxlength="3" />
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="det-setting">
+
+    </div>
+
+
+
+
+
+    <script type="text/javascript">
+      require('./sections/Detector/add-detector')
+    </script>
+
+    <script src="script/init.js" type="text/javascript" charset="utf-8"></script>
+
+
+  </section>
+</template>

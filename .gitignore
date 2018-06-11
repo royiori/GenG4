@@ -5,6 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
+*.out
+.DS_Store
 
 # Distribution / packaging
 .Python
@@ -26,6 +28,9 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+#Distribution / Electron
+Electron/node_modules
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -101,4 +106,4 @@ ENV/
 
 # mypy
 .mypy_cache/
-Electron/
+
