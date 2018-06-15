@@ -1,5 +1,4 @@
 const settings = require('electron-settings')
-// alert("->load demo-btns")
 
 const demoBtns = document.querySelectorAll('.js-container-target')
 // Listen for demo button clicks

@@ -13,6 +13,10 @@
   --color-accent:   black; /* Fallback */
 }
 
+::selection {
+  background:rgb(192, 192, 180);
+  color:#032764;
+  }
 
 /* Category Colors */
 

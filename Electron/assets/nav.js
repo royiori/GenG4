@@ -1,6 +1,5 @@
 const settings = require('electron-settings')
 
-// alert("->load nav")
 document.body.addEventListener('click', (event) => {
   if (event.target.dataset.section) {
     handleSectionTrigger(event)

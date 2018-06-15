@@ -1,7 +1,7 @@
 const settings = require('electron-settings')
 const NDET = 10
 
-// alert("->load variable")
+//.. 保存到setting里的key，以及初始化的值
 var iniData = {
     "EntryFuncName": "main",
     "G4LibPath": "",
@@ -22,6 +22,10 @@ var iniData = {
     "TrackClass": "MyTrackAction",
     "StepClass": "MyStepAction",
     "NBody": "2",
+    "GunEnergy" : "3 GeV",
+    "GunParticle" : "proton",
+    "GunPosition" : "0,0,0",
+    "GunDirection": "1,0,0,",
 }
 
 var iniDetKey = [
@@ -43,72 +47,137 @@ var iniDetKey = [
 // ..
 // Yes or no key : "name_for_user", "used in G4"
 var iniYNList = {
-    "Yes":   ["Yes",    "1", ""],
-    "No":    ["No",     "0", ""],
-    "Unset": ["Unset", "-1", ""],
+    "Yes": ["Yes", "1", ""],
+    "No": ["No", "0", ""],
+    // "Unset": ["Unset", "-1", ""],
 }
 
 // ..
 // random engine key : "name_for_user", "name_in_G4","description"
 var iniRndList = {
     "HepJamesRandom": ["HepJamesRandom", "", ""],
-    "DRand48Engine":  ["DRand48Engine",  "", ""],
-    "DualRand":       ["DualRand",       "", ""],
-    "Hurd160Engine":  ["Hurd160Engine",  "", ""],
-    "Hurd288Engine":  ["Hurd288Engine",  "", ""],
-    "MTwistEngine":   ["MTwistEngine",   "", ""],
-    "NonRandomEngine":["NonRandomEngine","", ""],
-    "RandEngine":     ["RandEngine",     "", ""],
-    "RanecuEngine":   ["RanecuEngine",   "", ""],
+    "DRand48Engine": ["DRand48Engine", "", ""],
+    "DualRand": ["DualRand", "", ""],
+    "Hurd160Engine": ["Hurd160Engine", "", ""],
+    "Hurd288Engine": ["Hurd288Engine", "", ""],
+    "MTwistEngine": ["MTwistEngine", "", ""],
+    "NonRandomEngine": ["NonRandomEngine", "", ""],
+    "RandEngine": ["RandEngine", "", ""],
+    "RanecuEngine": ["RanecuEngine", "", ""],
     "Ranlux64Engine": ["Ranlux64Engine", "", ""],
-    "RanluxEngine":   ["RanluxEngine",   "", ""],
-    "RanshiEngine":   ["RanshiEngine",   "", ""],
-    "TripleRand":     ["TripleRand",     "", ""],
+    "RanluxEngine": ["RanluxEngine", "", ""],
+    "RanshiEngine": ["RanshiEngine", "", ""],
+    "TripleRand": ["TripleRand", "", ""],
 }
 
 //..
 // shape key : "name_for_user", "name_in_G4", "description", "nsize_parameters", "parameter_description"
 var iniShapeList = {
-    "G4Box":    ["G4Box",    "G4Box",    "", "3", "x", "y", "z", ""],
-    "G4Para":   ["G4Para",   "G4Para",   "", "3", "x", "y", "z", ""],
-    "G4Trd":    ["G4Trd",    "G4Trd",    "", "3", "x", "y", "z", ""],
-    "G4Tubs":   ["G4Tubs",   "G4Tubs",   "", "3", "x", "y", "z", ""],
-    "G4CutTubs":["G4CutTubs","G4CutTubs","", "3", "x", "y", "z", ""],
-    "G4Cons":   ["G4Cons",   "G4Cons",   "", "3", "x", "y", "z", ""],
-    "G4Sphere": ["G4Sphere", "G4Sphere", "", "3", "x", "y", "z", ""],
-    "G4Orb":    ["G4Orb",    "G4Orb",    "", "3", "x", "y", "z", ""],
-    "G4Torus":  ["G4Torus",  "G4Torus",  "", "3", "x", "y", "z", ""],
+    "G4Box": ["G4Box 立方体", "G4Box",
+        "<p>Boxes:</p><table>" +
+        "<tr><td>X</td><td>half length in X</td></tr>" +
+        "<tr><td>Y</td><td>half length in Y</td></tr>" +
+        "<tr><td>Z</td><td>half length in Z</td></tr></table>",
+        "3", "X", "Y", "Z"],
+
+    "G4Para": ["G4Para 平行六面体", "G4Para",
+        "<p>Parallelepiped:</p><table>" +
+        "<tr><td>X, Y, Z</td><td>Half-length in x,y,z</td></tr>" +
+        "<tr><td>Alpha</td><td>Angle formed by the y axis and by the plane joining the centre of the faces parallel to the z-x plane at -dy and +dy</td></tr>" +
+        "<tr><td>Theta</td><td>Polar angle of the line joining the centres of the faces at -dz and +dz in z</td></tr>" +
+        "<tr><td>Phi</td><td>Azimuthal angle of the line joining the centres of the faces at -dz and +dz in z</td></tr></table>",
+        "6", "X", "Y", "Z", "Alpha", "Theta", "Phi"],
+
+    "G4Trd": ["G4Trd 梯形体", "G4Trd",
+        "<p>Trapezoid:</p><table>" +
+        "<tr><td>X1</td><td>Half-length along x at the surface positioned at -dz</td></tr>" +
+        "<tr><td>X2</td><td>Half-length along x at the surface positioned at +dz</td></tr>" +
+        "<tr><td>Y1</td><td>Half-length along y at the surface positioned at -dz</td></tr>" +
+        "<tr><td>Y2</td><td>Half-length along y at the surface positioned at +dz</td></tr>" +
+        "<tr><td>Z</td><td>Half-length along z axis</td></tr></table>",
+        "5", "X1", "X2", "Y1", "Y2", "Z"],
+
+    "G4Tubs": ["G4Tubs 管道", "G4Tubs",
+        "<p>Tubes:</p><table>" +
+        "<tr><td>RMin</td><td>Inner radius</td></tr>" +
+        "<tr><td>RMax</td><td>Outer radius</td></tr>" +
+        "<tr><td>Dz</td><td>Half length in z</td></tr>" +
+        "<tr><td>SPhi</td><td>Starting phi angle in radians</td></tr>" +
+        "<tr><td>DPhi</td><td>Angle of the segment in radians</td></tr></table>",
+        "5", "RMin", "RMax", "Dz", "SPhi", "DPhi"],
+
+    "G4CutTubs": ["G4CutTubs 斜切管道", "G4CutTubs",
+        "<p>Cut tubes:</p><table>" +
+        "<tr><td>RMin</td><td>Inner radius</td></tr>" +
+        "<tr><td>RMax</td><td>Outer radius</td></tr>" +
+        "<tr><td>Dz</td><td>Half length in z</td></tr>" +
+        "<tr><td>SPhi</td><td>Starting phi angle in radians</td></tr>" +
+        "<tr><td>DPhi</td><td>Angle of the segment in radians</td></tr>" +
+        "<tr><td>LowNorm</td><td>G4ThreeVector, Outside Normal at -z</td></tr>" +
+        "<tr><td>HighNorm</td><td>G4ThreeVector, Outside Normal at +z</td></tr></table>",
+        "7", "RMin", "RMax", "Dz", "SPhi", "DPhi", "LowNorm", "HighNorm"],
+
+    "G4Cons": ["G4Cons 圆锥", "G4Cons",
+        "<p>Cones:</p><table>" +
+        "<tr><td>RMin1</td><td>inside radius at -Dz</td></tr>" +
+        "<tr><td>Rmax1</td><td>outside radius at -Dz</td></tr>" +
+        "<tr><td>Rmin2</td><td>inside radius at +Dz</td></tr>" +
+        "<tr><td>Rmax2</td><td>outside radius at +Dz</td></tr>" +
+        "<tr><td>Dz</td><td>half length in z</td></tr>" +
+        "<tr><td>SPhi</td><td>starting angle of the segment in radians</td></tr>" +
+        "<tr><td>DPhi</td><td>the angle of the segment in radians</td></tr></table>",
+        "7", "RMin1", "RMax1", "RMin2", "RMax2", "Dz", "SPhi", "DPhi"],
+
+    "G4Sphere": ["G4Sphere 球壳", "G4Sphere",
+        "<p>Sphere:</p><table>" +
+        "<tr><td>Rmin</td><td>Inner radius</td></tr>" +
+        "<tr><td>Rmax</td><td>Outer radius</td></tr>" +
+        "<tr><td>SPhi</td><td>Starting Phi angle of the segment in radians</td></tr>" +
+        "<tr><td>DPhi</td><td>Delta Phi angle of the segment in radians</td></tr>" +
+        "<tr><td>STheta</td><td>Starting Theta angle of the segment in radians</td></tr>" +
+        "<tr><td>DTheta</td><td>Delta Theta angle of the segment in radians</td></tr></table>",
+        "6", "Rmin", "Rmax", "SPhi", "DPhi", "STheta", "DTheta"],
+
+    "G4Orb": ["G4Orb 球", "G4Orb",
+        "<p>Orb:</p><table>" +
+        "<tr><td>RMax</td><td>Outer radius</td></tr></table>",
+        "1", "RMax"],
+
+    "G4Torus": ["G4Torus 圆环体", "G4Torus",
+        "<p>Torus:</p><table>" +
+        "<tr><td>Rmin</td><td>Inside radius</td></tr>" +
+        "<tr><td>Rmax</td><td>Outside radius</td></tr>" +
+        "<tr><td>Rtor</td><td>Swept radius of torus</td></tr>" +
+        "<tr><td>SPhi</td><td>Starting Phi angle in radians (fSPhi+fDPhi<=2PI, fSPhi>-2PI)</td></tr>" +
+        "<tr><td>DPhi</td><td>Delta angle of the segment in radians</td></tr></table>",
+        "5", "Rmin", "Rmax", "Rtor", "SPhi", "DPhi"],
 }
 
 //..
 // physics key : "name_for_user", "name_in_G4", "description"
 var iniPhyicsList = {
-    "FTFP_BERT"            : ["FTFP_BERT", "FTFP_BERT", ""],
-    "FTFP_BERT_ATL"        : ["FTFP_BERT_ATL", "FTFP_BERT_ATL", ""],
-    "FTFP_BERT_HP"         : ["FTFP_BERT_HP", "FTFP_BERT_HP", ""],
-    "FTFP_BERT_TRV"        : ["FTFP_BERT_TRV", "FTFP_BERT_TRV", ""],
-    "FTFP_INCLXX"          : ["FTFP_INCLXX", "FTFP_INCLXX", ""],
-    "FTFP_INCLXX_HP"       : ["FTFP_INCLXX_HP", "FTFP_INCLXX_HP", ""],
-    "FTF_BIC"              : ["FTF_BIC", "FTF_BIC", ""],
-    "G4GenericPhysicsList" : ["G4GenericPhysicsList", "G4GenericPhysicsList", ""],
-    "G4PhysListFactory"    : ["G4PhysListFactory", "G4PhysListFactory", ""],
-    "INCLXXPhysicsListHelper": ["INCLXXPhysicsListHelper", "INCLXXPhysicsListHelper", ""],
-    "LBE"                  : ["LBE", "LBE", ""],
-    "NuBeam"               : ["NuBeam", "NuBeam", ""],
-    "QBBC"                 : ["QBBC", "QBBC", ""],
-    "QGSP_BERT"            : ["QGSP_BERT", "QGSP_BERT", ""],
-    "QGSP_BERT_HP"         : ["QGSP_BERT_HP", "QGSP_BERT_HP", ""],
-    "QGSP_BIC"             : ["QGSP_BIC", "QGSP_BIC", ""],
-    "QGSP_BIC_AllHP"       : ["QGSP_BIC_AllHP", "QGSP_BIC_AllHP", ""],
-    "QGSP_BIC_HP"          : ["QGSP_BIC_HP", "QGSP_BIC_HP", ""],
-    "QGSP_FTFP_BERT"       : ["QGSP_FTFP_BERT", "QGSP_FTFP_BERT", ""],
-    "QGSP_INCLXX"          : ["QGSP_INCLXX", "QGSP_INCLXX", ""],
-    "QGSP_INCLXX_HP"       : ["QGSP_INCLXX_HP", "QGSP_INCLXX_HP", ""],
-    "QGS_BIC"              : ["QGS_BIC", "QGS_BIC", ""],
-    "Shielding"            : ["Shielding", "Shielding", ""],
-    "User Define"          : ["User Define", "User Define", ""],
+    "FTFP_BERT": ["FTFP_BERT", "FTFP_BERT", ""],
+    "FTFP_BERT_ATL": ["FTFP_BERT_ATL", "FTFP_BERT_ATL", ""],
+    "FTFP_BERT_HP": ["FTFP_BERT_HP", "FTFP_BERT_HP", ""],
+    "FTFP_BERT_TRV": ["FTFP_BERT_TRV", "FTFP_BERT_TRV", ""],
+    "FTF_BIC": ["FTF_BIC", "FTF_BIC", ""],
+    "NuBeam": ["NuBeam", "NuBeam", ""],
+    "QBBC": ["QBBC", "QBBC", ""],
+    "QGSP_BERT": ["QGSP_BERT", "QGSP_BERT", ""],
+    "QGSP_BERT_HP": ["QGSP_BERT_HP", "QGSP_BERT_HP", ""],
+    "QGSP_BIC": ["QGSP_BIC", "QGSP_BIC", ""],
+    "QGSP_BIC_AllHP": ["QGSP_BIC_AllHP", "QGSP_BIC_AllHP", ""],
+    "QGSP_BIC_HP": ["QGSP_BIC_HP", "QGSP_BIC_HP", ""],
+    "QGSP_FTFP_BERT": ["QGSP_FTFP_BERT", "QGSP_FTFP_BERT", ""],
+    "QGS_BIC": ["QGS_BIC", "QGS_BIC", ""],
+    "Shielding": ["Shielding", "Shielding", ""],
 }
 
+var iniEMPhysicsList = {
+
+}
+
+//.. 注意保证长度间隔为6
 //原子序数或者是组分数， 汉语名称， 英语名称， Geant4里的名字， 密度， 电离能
 var iniMattList = {
     "CEPC-ECal": [
@@ -500,54 +569,69 @@ var iniMattList = {
     ]
 }
 
-var iniGunList = {
-    "Resource": [
-        "e+", "钠-22", "<sub style='font-size: 25px;'>11</sub>Na<sup style=' font-size: 25px;'>22</sup>", "2.6 Years", "580 keV",
-        "gamma", "钠-22", "<sub style='font-size: 25px;'>11</sub>Na<sup style=' font-size: 25px;'>22</sup>", "2.6 Years", "1275 keV",
-        "e-", "钾-40", "<sub style='font-size: 25px;'>19</sub>K<sup style=' font-size: 25px;'>40</sup>", "9.9E8 Years", "1330 keV",
-        "gamma", "钾-40", "<sub style='font-size: 25px;'>19</sub>K<sup style=' font-size: 25px;'>40</sup>", "9.9E8 Years", "1460 keV",
-        "gamma", "钴-60", "<sub style='font-size: 25px;'>27</sub>Co<sup style=' font-size: 25px;'>60</sup>", "270 Days", "1173 keV",
-        "gamma", "钴-60", "<sub style='font-size: 25px;'>27</sub>Co<sup style=' font-size: 25px;'>60</sup>", "270 Days", "1333 keV",
-        "e-", "锶-90", "<sub style='font-size: 25px;'>38</sub>Sr<sup style=' font-size: 25px;'>90</sup>", "19.9 Years", "546 keV",
-        "e-", "铯-137", "<sub style='font-size: 25px;'>55</sub>Cs<sup style=' font-size: 25px;'>137</sup>", "33.2 Years", "512 keV",
-        "e-", "铯-137", "<sub style='font-size: 25px;'>55</sub>Cs<sup style=' font-size: 25px;'>137</sup>", "33.2 Years", "1173 keV",
-        "gamma", "铯-137", "<sub style='font-size: 25px;'>55</sub>Cs<sup style=' font-size: 25px;'>137</sup>", "33.2 Years", "662 keV",
-        "alpha", "钋-210", "<sub style='font-size: 25px;'>84</sub>Po<sup style=' font-size: 25px;'>210</sup>", "138.4 Days", "5305 keV",
-        "alpha", "铀-238", "<sub style='font-size: 25px;'>92</sub>U<sup style=' font-size: 25px;'>238</sup>", "4.5E9 Years", "4267 keV",
-        "alpha", "钚-239", "<sub style='font-size: 25px;'>94</sub>Pu<sup style=' font-size: 25px;'>239</sup>", "2.4E4 Years", "5245 keV",
-        "alpha", "镅-241", "<sub style='font-size: 25px;'>95</sub>Am<sup style=' font-size: 25px;'>241</sup>", "4.3E2 Years", "5486 keV",
-        "gamma", "镅-241", "<sub style='font-size: 25px;'>95</sub>Am<sup style=' font-size: 25px;'>241</sup>", "4.3E2 Years", "60 keV"
+//.. 注意保证长度间隔为6
+//英文名，中文名，html显示的名字，半衰期，能量
+//英文名，中文名，html显示的名字，自旋，CP
+var iniParticleList = {
+    "Resource" : [
+        "e+",   "<sub style='font-size: 5px;'>11</sub>钠Na<sup style=' font-size: 5px;'>22</sup>", "e+(580 keV)",    "2.6 Years","580 keV","",
+        "gamma","<sub style='font-size: 5px;'>11</sub>钠Na<sup style=' font-size: 5px;'>22</sup>", "gamma(1275 keV)","2.6 Years","1275 keV","",
+        "e-",   "<sub style='font-size: 5px;'>19</sub>钾K<sup style=' font-size: 5px;'>40</sup>",  "e-(1330 keV)",   "9.9E8 Years","1330 keV","",
+        "gamma","<sub style='font-size: 5px;'>19</sub>钾K<sup style=' font-size: 5px;'>40</sup>",  "gamma(1460 keV)","9.9E8 Years","1460 keV","",
+        "gamma","<sub style='font-size: 5px;'>27</sub>钴Co<sup style=' font-size: 5px;'>60</sup>", "gamma(1173 keV)","270 Days","1173 keV","",
+        "gamma","<sub style='font-size: 5px;'>27</sub>钴Co<sup style=' font-size: 5px;'>60</sup>", "gamma(1333 keV)","270 Days","1333 keV","",
+        "e-",   "<sub style='font-size: 5px;'>38</sub>锶Sr<sup style=' font-size: 5px;'>90</sup>", "e-(546 keV)",    "19.9 Years","546 keV","",
+        "e-",   "<sub style='font-size: 5px;'>55</sub>铯Cs<sup style=' font-size: 5px;'>137</sup>","e-(512 keV)",    "33.2 Years","512 keV","",
+        "e-",   "<sub style='font-size: 5px;'>55</sub>铯Cs<sup style=' font-size: 5px;'>137</sup>","e-(1173 keV)",   "33.2 Years","1173 keV","",
+        "gamma","<sub style='font-size: 5px;'>55</sub>铯Cs<sup style=' font-size: 5px;'>137</sup>","gamma(662 keV)", "33.2 Years","662 keV","",
+        "alpha","<sub style='font-size: 5px;'>84</sub>钋Po<sup style=' font-size: 5px;'>210</sup>","alpha(5305 keV)","138.4 Days","5305 keV","",
+        "alpha","<sub style='font-size: 5px;'>92</sub>铀U<sup style=' font-size: 5px;'>238</sup>", "alpha(4267 keV)","4.5E9 Years","4267 keV","",
+        "alpha","<sub style='font-size: 5px;'>94</sub>钚Pu<sup style=' font-size: 5px;'>239</sup>","alpha(5245 keV)","2.4E4 Years","5245 keV","",
+        "alpha","<sub style='font-size: 5px;'>95</sub>镅Am<sup style=' font-size: 5px;'>241</sup>","alpha(5486 keV)","4.3E2 Years","5486 keV","",
+        "gamma","<sub style='font-size: 5px;'>95</sub>镅Am<sup style=' font-size: 5px;'>241</sup>","gamma(60 keV)",  "4.3E2 Years","60 keV","",
     ],
-    "Particle": [
-        "proton", "质子", "p", "1/2", "+",
-        "neutron", "中子", "n", "1/2", "+",
-        "mu-", "负缪子", "&mu;<sup>-</sup>", "1/2", "",
-        "mu+", "正缪子", "&mu;<sup>+</sup>", "1/2", "",
-        "e-", "电子", "e<sup>-</sup>", "1/2", "",
-        "e+", "正电子", "e<sup>+</sup>", "1/2", "",
-        "alpha", "氦核", "&alpha;<sup>2+</sup>", "", "",
-        "gamma", "光子", "&gamma;", "1", "--",
-        "pi+", "正徘介子", "&pi;<sup>+</sup>", "0", "-",
-        "pi0", "徘介子", "&pi;<sup>0</sup>", "0", "-+",
-        "pi-", "负徘介子", "&pi;<sup>-</sup>", "0", "-"
+    "Particle" : [
+        "proton",  "质子",  "proton","1/2","+","",
+        "neutron", "中子",  "neutron","1/2","+","",
+        "mu-",     "负缪子","mu- &mu;<sup>-</sup>","1/2","","",
+        "mu+",     "正缪子","mu+ &mu;<sup>+</sup>","1/2","","",
+        "e-",      "电子",  "e<sup>-</sup>","1/2","","",
+        "e+",      "正电子","e<sup>+</sup>","1/2","","",
+        "alpha",   "氦核",  "alpha &alpha;<sup>2+</sup>","","","",
+        "gamma",   "光子","gamma &gamma;","1","--","",
+        "pi+",     "正徘介子","pi &pi;<sup>+</sup>","0","-","",
+        "pi0",     "徘介子","pi &pi;<sup>0</sup>","0","-+","",
+        "pi-",     "负徘介子","pi &pi;<sup>-</sup>","0","-","",
     ]
 }
 
+// matterial key : "name_for_user", "name_in_G4", "description" ...
+//var newMat = {
+//}
+
+// ID key : "name_for_user", "name_in_G4","description"
+var newID = {
+    "top": ["-1", "-1", ""],
+}
 
 //--------------------------------------------
 // Map between drop-down button & object list
 var iniMap = {
-    "AddUsrVerbose"  : iniYNList,
-    "RandomEngine"   : iniRndList,
-    "PhysicsProcess" : iniPhyicsList,
-    "DetectorShape"  : iniShapeList,
-    "Material"       : iniMattList,
+    "AddUsrVerbose": iniYNList,
+    "RandomEngine": iniRndList,
+    "PhysicsProcess": iniPhyicsList,
+    "DetectorShape": iniShapeList,
+    "Material": iniMattList,
+    "ParticleList": iniParticleList,
+    "IDList": newID,
 }
 
-// read from setting
+
+//--------------------------------------------
+// read from setting for defalt value
 for (key in iniData) {
     value = settings.get(key)
-    if (value && value!="") {
+    if (value && value != "") {
         iniData[key] = value
         // alert('Read '+key+" as "+value)
     }
@@ -562,76 +646,36 @@ for (index = 1; index <= NDET; index++) {
     })
 }
 
-
-
-function addDropDown(topdiv, idcont, droplist) {
-    dropdown = document.createElement('div')
-    dropdown.setAttribute('class', 'dropdown')
-    topdiv.appendChild(dropdown)
-
-    span = document.createElement('span')
-    span.setAttribute('class', 'dropbtn')
-    span.setAttribute('id', idcont + '-span')
-    span.innerHTML=iniData[idcont]
-    topdiv.appendChild(span)
-    
-    //.. add content ..
-    div = document.createElement('div')
-    div.setAttribute('class', 'dropdown-content')
-    topdiv.appendChild(div)
-
-    for (key in iniMap[droplist]) {
-        la = document.createElement('a')
-        la.id = idcont + '=' + iniMap[droplist][key][0]
-        la.innerHTML = iniMap[droplist][key][0]
-        div.appendChild(la)
-
-        la.addEventListener('click', function () {
-            id = this.id.split('=')
-            idcont = id[0]
-            value  = id[1]
-
-            span = document.getElementById(idcont + '-span')
-            span.innerHTML = value
-            settings.set(idcont, value)
-            // alert("Set " + idcont + " to " + value)
-        })
-    }
-}
-
-function addGroupDropDown(topdiv, idcont, droplist) {
-    select = document.createElement('select')
-    select.setAttribute('data-placeholder','Click to set...')
-    select.setAttribute('class', 'chosen-select')
-    select.setAttribute('id', idcont)
-    topdiv.appendChild(select)
-
-    opt = document.createElement('option')
-    select.appendChild(opt)
-
-    for (key in iniMap[droplist]) {
-        optg = document.createElement('optgroup')
-        optg.setAttribute('label',key)
-        select.appendChild(optg)
-
-        for( var i=0; i<iniMap[droplist][key].length; i+=6) {
-            opt = document.createElement('option')
-            opt.innerHTML = iniMap[droplist][key][i+1]+" "+iniMap[droplist][key][i+2]
-            optg.appendChild(opt)
-        }
-    }
-}
-
-function addInputListener(input)
-{
+//--------------------------------------------
+// general input listener
+function addInputListener(input) {
     id = input.getAttribute('id')
     val = settings.get(id)
     if (val) input.value = val
 
     input.addEventListener('change', function () {
         id = this.id
-        val= this.value
-        if (val) settings.set(id, val)
-    })    
+        val = this.value
+        if (val) store(id, val)
+    })
 }
-// alert("->load variable done")
+
+//--------------------------------------------
+// my alert message box
+function myAlert(message) {
+    modal = document.getElementById('myModal')
+    span = document.querySelector('.close')
+    msg = document.getElementById('alert-msg')
+    msg.innerHTML = message
+    modal.style.display = "block"
+
+    span.onclick = function () {
+        modal.style.display = "none"
+    }
+}
+
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none"
+    }
+}

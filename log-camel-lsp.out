@@ -33,3 +33,74 @@ SERVER: changeWatchedFiles: size -> {0}
 SERVER: changeWatchedFiles: size -> {0}
 Shutting down language server
 Stopping language server
+Setting client pid to {0}
+SERVER: changeConfig: settings -> {0}
+didOpen: {0}
+didOpen: {0}
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+didClose: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+didClose: TextDocumentIdentifier [
+  uri = "git:/Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg.git?%7B%22path%22%3A%22%2FUsers%2Fliuqian%2FDocuments%2FGitHub%2FGenG4%2FElectron%2Fassets%2Fimg%2Ficons.svg%22%2C%22ref%22%3A%22%22%7D"
+]
+didOpen: {0}
+didOpen: {0}
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+didClose: TextDocumentIdentifier [
+  uri = "git:/Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg.git?%7B%22path%22%3A%22%2FUsers%2Fliuqian%2FDocuments%2FGitHub%2FGenG4%2FElectron%2Fassets%2Fimg%2Ficons.svg%22%2C%22ref%22%3A%22%22%7D"
+]
+didClose: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+didOpen: {0}
+didOpen: {0}
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+hover: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]
+didClose: TextDocumentIdentifier [
+  uri = "git:/Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg.git?%7B%22path%22%3A%22%2FUsers%2Fliuqian%2FDocuments%2FGitHub%2FGenG4%2FElectron%2Fassets%2Fimg%2Ficons.svg%22%2C%22ref%22%3A%22%22%7D"
+]
+didClose: TextDocumentIdentifier [
+  uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
+]

@@ -19,11 +19,15 @@
   <link rel="import" href="sections/Physics/setPhysics.html">
   <link rel="import" href="sections/Detector/setMaterial.html">
   <link rel="import" href="sections/Detector/setDetector.html">
+  <link rel="import" href="sections/PrimaryGun/setPrimaryGun.html">
+  
 
   <script type="text/javascript" src="./script/jquery-3.2.1.min.js"></script>
   <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
   <script type="text/javascript" src="./node_modules/chosen-js/chosen.jquery.js"></script>
   <script type="text/javascript" src="./assets/variable.js"></script>
+  <script type="text/javascript" src="./assets/domctrl.js"></script>
+
 </head>
 <body>
 
@@ -52,13 +56,21 @@
     </div>
 
     <div class="nav-item u-category-Detector">
-        <h5 class="nav-category">
-          <svg class="nav-icon"><use xlink:href="assets/img/icons.svg#icon-native-ui"></use></svg>
-          Detector
-        </h5>
-        <button type="button" id="button-setMaterial" data-section="setMaterial" class="nav-button">Define a new <em>material</em> </button>
-        <button type="button" id="button-setDetector" data-section="setDetector" class="nav-button">Customize the <em>detector</em></button>
-      </div>
+      <h5 class="nav-category">
+        <svg class="nav-icon"><use xlink:href="assets/img/icons.svg#icon-native-ui"></use></svg>
+        Detector
+      </h5>
+      <!--<button type="button" id="button-setMaterial" data-section="setMaterial" class="nav-button">Define a new <em>material</em> </button>-->
+      <button type="button" id="button-setDetector" data-section="setDetector" class="nav-button">Customize the <em>detector</em></button>
+    </div>
+
+    <div class="nav-item u-category-Gun">
+      <h5 class="nav-category">
+        <svg class="nav-icon"><use xlink:href="assets/img/icons.svg#icon-communication"></use></svg>
+        Primary Generator
+      </h5>
+      <button type="button" id="button-setGun" data-section="setGun" class="nav-button">Define the <em>Primary Generator</em> </button>
+    </div>
 
     <footer class="nav-footer">
       <button type="button" id="button-about" data-modal="about" class="nav-footer-button">About</button>
@@ -66,12 +78,20 @@
   </nav>
 
   <main class="content js-content"></main>
+  
+  <!-- 弹窗内容 -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p id="alert-msg"></p>
+    </div>
+  </div>
 
   <script>
+    //先运行这个页面的头script，然后是每个子页面的script，最后才是这里的script
     require('./assets/imports')
     require('./assets/nav')
     require('./assets/demo-btns')
-    require('./assets/add-dropdown')
     require('./assets/ini-listener')
   </script>
 </body>
