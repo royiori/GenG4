@@ -104,3 +104,5 @@ didClose: TextDocumentIdentifier [
 didClose: TextDocumentIdentifier [
   uri = "file:///Users/liuqian/Documents/GitHub/GenG4/Electron/assets/img/icons.svg"
 ]
+Shutting down language server
+Stopping language server

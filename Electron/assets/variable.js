@@ -1,8 +1,10 @@
 const settings = require('electron-settings')
+
 const NDET = 10
 
 //.. 保存到setting里的key，以及初始化的值
 var iniData = {
+    "c1" : "main",
     "EntryFuncName": "main",
     "G4LibPath": "",
     "QTLibPath": "",
@@ -21,11 +23,14 @@ var iniData = {
     "StackClass": "MyStackAction",
     "TrackClass": "MyTrackAction",
     "StepClass": "MyStepAction",
+    "c2" : "detector",
     "NBody": "2",
+    "c3" : "gun",
     "GunEnergy" : "3 GeV",
     "GunParticle" : "proton",
     "GunPosition" : "0,0,0",
     "GunDirection": "1,0,0,",
+    "cend" : "cend"
 }
 
 var iniDetKey = [
@@ -73,14 +78,14 @@ var iniRndList = {
 //..
 // shape key : "name_for_user", "name_in_G4", "description", "nsize_parameters", "parameter_description"
 var iniShapeList = {
-    "G4Box": ["G4Box 立方体", "G4Box",
+    "G4Box": ["立方体 G4Box", "G4Box",
         "<p>Boxes:</p><table>" +
         "<tr><td>X</td><td>half length in X</td></tr>" +
         "<tr><td>Y</td><td>half length in Y</td></tr>" +
         "<tr><td>Z</td><td>half length in Z</td></tr></table>",
         "3", "X", "Y", "Z"],
 
-    "G4Para": ["G4Para 平行六面体", "G4Para",
+    "G4Para": ["平行六面体 G4Para", "G4Para",
         "<p>Parallelepiped:</p><table>" +
         "<tr><td>X, Y, Z</td><td>Half-length in x,y,z</td></tr>" +
         "<tr><td>Alpha</td><td>Angle formed by the y axis and by the plane joining the centre of the faces parallel to the z-x plane at -dy and +dy</td></tr>" +
@@ -88,7 +93,7 @@ var iniShapeList = {
         "<tr><td>Phi</td><td>Azimuthal angle of the line joining the centres of the faces at -dz and +dz in z</td></tr></table>",
         "6", "X", "Y", "Z", "Alpha", "Theta", "Phi"],
 
-    "G4Trd": ["G4Trd 梯形体", "G4Trd",
+    "G4Trd": ["梯形体 G4Trd", "G4Trd",
         "<p>Trapezoid:</p><table>" +
         "<tr><td>X1</td><td>Half-length along x at the surface positioned at -dz</td></tr>" +
         "<tr><td>X2</td><td>Half-length along x at the surface positioned at +dz</td></tr>" +
@@ -97,7 +102,7 @@ var iniShapeList = {
         "<tr><td>Z</td><td>Half-length along z axis</td></tr></table>",
         "5", "X1", "X2", "Y1", "Y2", "Z"],
 
-    "G4Tubs": ["G4Tubs 管道", "G4Tubs",
+    "G4Tubs": ["管道 G4Tubs", "G4Tubs",
         "<p>Tubes:</p><table>" +
         "<tr><td>RMin</td><td>Inner radius</td></tr>" +
         "<tr><td>RMax</td><td>Outer radius</td></tr>" +
@@ -106,7 +111,7 @@ var iniShapeList = {
         "<tr><td>DPhi</td><td>Angle of the segment in radians</td></tr></table>",
         "5", "RMin", "RMax", "Dz", "SPhi", "DPhi"],
 
-    "G4CutTubs": ["G4CutTubs 斜切管道", "G4CutTubs",
+    "G4CutTubs": ["斜切管道 G4CutTubs", "G4CutTubs",
         "<p>Cut tubes:</p><table>" +
         "<tr><td>RMin</td><td>Inner radius</td></tr>" +
         "<tr><td>RMax</td><td>Outer radius</td></tr>" +
@@ -117,7 +122,7 @@ var iniShapeList = {
         "<tr><td>HighNorm</td><td>G4ThreeVector, Outside Normal at +z</td></tr></table>",
         "7", "RMin", "RMax", "Dz", "SPhi", "DPhi", "LowNorm", "HighNorm"],
 
-    "G4Cons": ["G4Cons 圆锥", "G4Cons",
+    "G4Cons": ["圆锥 G4Cons", "G4Cons",
         "<p>Cones:</p><table>" +
         "<tr><td>RMin1</td><td>inside radius at -Dz</td></tr>" +
         "<tr><td>Rmax1</td><td>outside radius at -Dz</td></tr>" +
@@ -128,7 +133,7 @@ var iniShapeList = {
         "<tr><td>DPhi</td><td>the angle of the segment in radians</td></tr></table>",
         "7", "RMin1", "RMax1", "RMin2", "RMax2", "Dz", "SPhi", "DPhi"],
 
-    "G4Sphere": ["G4Sphere 球壳", "G4Sphere",
+    "G4Sphere": ["球壳 G4Sphere", "G4Sphere",
         "<p>Sphere:</p><table>" +
         "<tr><td>Rmin</td><td>Inner radius</td></tr>" +
         "<tr><td>Rmax</td><td>Outer radius</td></tr>" +
@@ -138,12 +143,12 @@ var iniShapeList = {
         "<tr><td>DTheta</td><td>Delta Theta angle of the segment in radians</td></tr></table>",
         "6", "Rmin", "Rmax", "SPhi", "DPhi", "STheta", "DTheta"],
 
-    "G4Orb": ["G4Orb 球", "G4Orb",
+    "G4Orb": ["球体 G4Orb", "G4Orb",
         "<p>Orb:</p><table>" +
         "<tr><td>RMax</td><td>Outer radius</td></tr></table>",
         "1", "RMax"],
 
-    "G4Torus": ["G4Torus 圆环体", "G4Torus",
+    "G4Torus": ["圆环体 G4Torus", "G4Torus",
         "<p>Torus:</p><table>" +
         "<tr><td>Rmin</td><td>Inside radius</td></tr>" +
         "<tr><td>Rmax</td><td>Outside radius</td></tr>" +

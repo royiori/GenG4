@@ -20,7 +20,7 @@
   <link rel="import" href="sections/Detector/setMaterial.html">
   <link rel="import" href="sections/Detector/setDetector.html">
   <link rel="import" href="sections/PrimaryGun/setPrimaryGun.html">
-  
+  <link rel="import" href="sections/Generator/generator.html">
 
   <script type="text/javascript" src="./script/jquery-3.2.1.min.js"></script>
   <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
@@ -72,6 +72,10 @@
       <button type="button" id="button-setGun" data-section="setGun" class="nav-button">Define the <em>Primary Generator</em> </button>
     </div>
 
+    <div class="nav-item u-category-Generat">
+    <button type="button" id="button-generatAct" data-section="generatAct" class="nav-button"> <em>Generate G4Codes</em> </button>
+    </div>
+    
     <footer class="nav-footer">
       <button type="button" id="button-about" data-modal="about" class="nav-footer-button">About</button>
     </footer>
