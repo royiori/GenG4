@@ -11,8 +11,8 @@ projContent = {
 }
 
 envContent = {
-    "G4LibPath"   : ["Set the path of the G4 library:", "input-text", "", "G4LibPath"  , ""],
-    "QTLibPath"   : ["Set the path of the QT library:", "input-text", "", "QTLibPath"  , ""],    
+    "G4LibPath"   : ["Set the path of the G4 library:", "input-text", "", "G4LibPath"  , "parmWithPath"],
+    "QTLibPath"   : ["Set the path of the QT library:", "input-text", "", "QTLibPath"  , "parmWithPath"],    
 }
 
 basicContent = {

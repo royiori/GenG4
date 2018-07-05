@@ -66,7 +66,7 @@ generator.addEventListener('click', function () {
         }
         else if(mkey == "NBody") {
             mesg = mesg + "<p>" + mkey + " : " + iniData[mkey] + "</p><br />"
-            outp = outp + mkey + " : " + iniData[mkey] + "\n"
+            outp = outp + mkey + " = " + iniData[mkey] + "\n"
 
             for(index=1; index<=parseInt(iniData[mkey]); index++) 
             {
@@ -77,7 +77,7 @@ generator.addEventListener('click', function () {
                     if(nkey.indexOf("BodyShap")==0) value = getShapeCode(value)
 
                     mesg =  mesg + "<p>" + nkey+" : " + value + "</p>"
-                    outp =  outp + nkey + " : " + value + "\n"
+                    outp =  outp + nkey + " = " + value + "\n"
                 })
                 if(index != parseInt(iniData[mkey])) {
                     mesg = mesg + "<br />"
@@ -89,11 +89,11 @@ generator.addEventListener('click', function () {
             value = iniData[mkey]
             value = getGunCode(value)
             mesg =  mesg + "<p>" + mkey+" : " + value + "</p>"
-            outp =  outp + mkey+" : " + value + "\n"
+            outp =  outp + mkey+" = " + value + "\n"
         }
         else {
             mesg =  mesg + "<p>" + mkey+" : " + iniData[mkey] + "</p>"
-            outp =  outp + mkey+" : " + iniData[mkey] + "\n"
+            outp =  outp + mkey+" = " + iniData[mkey] + "\n"
         }
     }
     genOutput.innerHTML = mesg

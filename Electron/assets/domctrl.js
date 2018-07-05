@@ -212,7 +212,23 @@ function parmWithString() {
     this.eventList++
 }
 
-//2. 能量的input
+//2. 路径的input
+function parmWithPath() {
+    if (!this.eventList) eventList = 0
+    if (this.eventList > 1) this.removeEventLisener('change', parmWithPath)
+
+    value = this.value
+    var containSpecial = RegExp(/[(\ )(\~)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\+)(\=)(\[)(\])(\{)(\})(\|)(\;)(\:)(\')(\,)(\\)(\<)(\>)(\?)(\)]+/);
+    if (parseFloat(value) || containSpecial.test(value)) {
+        alert("注意:输入必须为字符串，且不可包含特殊字符")
+        this.value = ""
+    }
+
+    store(this.id, this.value)
+    this.eventList++
+}
+
+//3. 能量的input
 function parmWithEngUnit() {
     if (!this.eventList) eventList = 0
     if (this.eventList > 1) this.removeEventLisener('change', parmWithEngUnit)
@@ -231,7 +247,7 @@ function parmWithEngUnit() {
     this.eventList++
 }
 
-//3. 长度的input
+//4. 长度的input
 function parmWithLengUnit() {
     if (!this.eventList) eventList = 0
     if (this.eventList > 1) this.removeEventLisener('change', parmWithLengUnit)
@@ -250,7 +266,7 @@ function parmWithLengUnit() {
     this.eventList++
 }
 
-//4. 颜色的input
+//5. 颜色的input
 function parmWithColor() {
     if (!this.eventList) eventList = 0
     if (this.eventList > 1) this.removeEventLisener('change', parmWithColor)
@@ -259,7 +275,7 @@ function parmWithColor() {
     this.eventList++
 }
 
-//5. 矢量的input
+//6. 矢量的input
 function parmVector() {
     if (!this.eventList) eventList = 0
     if (this.eventList > 1) this.removeEventLisener('change', parmVector)
@@ -294,6 +310,7 @@ function clone(myObj) {
 //2. 响应函数的初始化
 function initialization() {
     $(".parmWithString").change(parmWithString)
+    $(".parmWithPath").change(parmWithPath)
     $(".parmWithEngUnit").change(parmWithEngUnit)
     $(".parmWithLengUnit").change(parmWithLengUnit)
     $(".parmWithColor").change(parmWithColor)
