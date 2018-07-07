@@ -7,7 +7,8 @@ const classNameTable = document.getElementById('classNameTable')
 // Project Info页面的控制数据
 // "显示标签", "控件种类", "初始化数据", "id/保存进setting的key", "class/根据此来进行输入量检查"
 projContent = {
-    "EntryFuncName"   : ["Set the name of the main function:", "input-text", "", "EntryFuncName"  , "parmWithString"],    
+    "EntryFuncName"   : ["Set the project name:", "input-text", "", "EntryFuncName"  , "parmWithString"],
+    "ProjectPath"     : ["Set the project path:", "input-filedir", "", "ProjectPath" , "parmWithFileDir"],    
 }
 
 envContent = {

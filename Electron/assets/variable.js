@@ -1,4 +1,10 @@
 const settings = require('electron-settings')
+const {ipcRenderer} = require('electron')
+
+// python client connector
+const zerorpc = require("zerorpc")
+let client = new zerorpc.Client()
+client.connect("tcp://127.0.0.1:4242")
 
 const NDET = 10
 
@@ -6,6 +12,7 @@ const NDET = 10
 var iniData = {
     "c1" : "main",
     "EntryFuncName": "main",
+    "ProjectPath" : "",
     "G4LibPath": "",
     "QTLibPath": "",
     "AddUsrVerbose": "Yes",
@@ -26,6 +33,7 @@ var iniData = {
     "c2" : "detector",
     "NBody": "2",
     "c3" : "gun",
+    "GunType" : "Mono",
     "GunEnergy" : "3 GeV",
     "GunParticle" : "proton",
     "GunPosition" : "0,0,0",
@@ -614,6 +622,12 @@ var iniParticleList = {
 //var newMat = {
 //}
 
+// Gun type: "name_for_user", "used in G4"
+var iniGunType = {
+    "Mono" : ["Mono", "Mono", ""],    
+    //"GPS" : ["GPS", "GPS", ""],    
+}
+
 // ID key : "name_for_user", "name_in_G4","description"
 var newID = {
     "top": ["-1", "-1", ""],
@@ -627,6 +641,7 @@ var iniMap = {
     "PhysicsProcess": iniPhyicsList,
     "DetectorShape": iniShapeList,
     "Material": iniMattList,
+    "GunType": iniGunType, 
     "ParticleList": iniParticleList,
     "IDList": newID,
 }

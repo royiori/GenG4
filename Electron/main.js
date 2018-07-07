@@ -72,6 +72,11 @@ function initialize () {
   const shouldQuit = makeSingleInstance()
   if (shouldQuit) return app.quit()
 
+  // for main and render processes connection. 
+  // main is loaded here at the begining
+  // render is loaded at each html page
+  loadMainProcess() 
+
   function createWindow () {
     const windowOptions = {
       width: 1080,
@@ -132,6 +137,12 @@ function makeSingleInstance () {
       mainWindow.focus()
     }
   })
+}
+
+// Require each JS file in the main-process dir
+function loadMainProcess () {
+  const files = glob.sync(path.join(__dirname, 'script/main-process/*.js'))
+  files.forEach((file) => { require(file) })
 }
 
 // Handle Squirrel on Windows startup events

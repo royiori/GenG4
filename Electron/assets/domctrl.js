@@ -72,6 +72,8 @@ function addDOM(topdiv, dom, inival, idcont, classnm) {
             break
         case ("input-color"): addInputColor(topdiv, inival, idcont, classnm)
             break
+        case ("input-filedir") : addInputFileDir(topdiv, inival, idcont, classnm)
+            break
         case ("dropdown"): addDropDown(topdiv, inival, idcont, classnm)
             break
         case ("dropdown-chosen"): addDropDownChosen(topdiv, inival, idcont, classnm)
@@ -111,6 +113,17 @@ function addInputColor(topdiv, inival, idcont, classnm) {
     topdiv.appendChild(input)
 
     input.value = (inival == "") ? iniData[idcont] : inival
+}
+
+//3. Table -> addDom -> addInputFileDirectory
+function addInputFileDir(topdiv, inival, idcont, classnm) {
+    button = document.createElement('button')
+    button.setAttribute('id', idcont)
+    button.setAttribute('class', classnm + " button")
+    topdiv.appendChild(button)
+
+    button.value = (inival == "" || inival == "Click me") ? iniData[idcont] : "Click me"
+    button.innerText = button.value
 }
 
 //3. Table -> addDom -> addDropDown
@@ -293,6 +306,18 @@ function parmVector() {
     this.eventList++
 }
 
+//7. 路径按钮的click
+function parmWithFileDir() {
+    ipcRenderer.send('open-file-dialog', this.id) //in main-process will response this message
+}
+
+ipcRenderer.on('selected-directory', (event, str) => {
+    tmpstr = str.split(':')
+    path = tmpstr[0]
+    id = tmpstr[1]
+    document.getElementById(id).innerText = `${path}`
+    store(id, path)
+  })
 
 //_________________________________________________
 // 通用函数
@@ -311,6 +336,7 @@ function clone(myObj) {
 function initialization() {
     $(".parmWithString").change(parmWithString)
     $(".parmWithPath").change(parmWithPath)
+    $(".parmWithFileDir").click(parmWithFileDir)
     $(".parmWithEngUnit").change(parmWithEngUnit)
     $(".parmWithLengUnit").change(parmWithLengUnit)
     $(".parmWithColor").change(parmWithColor)

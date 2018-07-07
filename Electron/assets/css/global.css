@@ -278,3 +278,22 @@ kbd {
   text-decoration: none;
   cursor: pointer;
 }
+
+/* button */
+.button {
+  background-color: #e7e7e7; 
+  color: black;
+  border: 1px solid #555555;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  width: 70%;
+  border-radius: 8px;
+}
+
+.button:hover {
+  background-color: #555555;
+  color: white;
+}

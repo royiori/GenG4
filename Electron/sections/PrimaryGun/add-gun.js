@@ -4,6 +4,7 @@ const gunTable = document.getElementById('gunTable')
 // Particle Gun页面的控制数据
 // "显示标签", "控件种类", "初始化数据", "id/保存进setting的key", "class/根据此来进行输入量检查"
 gunContent = {
+    "ptype" : ["Type:", "dropdown", "GunType", "GunType", ""],
     "energy": ["Energy:", "input-text", "", "GunEnergy", "parmWithEngUnit"],
     "particle": ["Particle:", "dropdowngrp", "ParticleList", "GunParticle", "gunparticle"],
     "position": ["Position:", "input-text", "", "GunPosition", "parmVector"],

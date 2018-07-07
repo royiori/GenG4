@@ -57,9 +57,19 @@ generator.addEventListener('click', function () {
     outp = ""
     for(mkey in iniData) 
     {
+        if ( iniData[mkey] == "Yes" ) 
+            value = 1
+        else if ( iniData[mkey] == "No" )
+            value = 0
+        else
+            value = iniData[mkey]
+        
+        if (mkey == "GunEnergy")
+            value = iniData[mkey].replace(' ', '*')
+            
         if(conreg.test(mkey)) {
-            mesg = mesg + "________________________________<br><p>[" +iniData[mkey] + "]</p>"
-            outp = outp + "\n[" + iniData[mkey] +"]\n" 
+            mesg = mesg + "________________________________<br><p>[" +value + "]</p>"
+            outp = outp + "\n[" + value +"]\n" 
         }
         else if(mkey=="cend") {
             break
@@ -92,18 +102,25 @@ generator.addEventListener('click', function () {
             outp =  outp + mkey+" = " + value + "\n"
         }
         else {
-            mesg =  mesg + "<p>" + mkey+" : " + iniData[mkey] + "</p>"
-            outp =  outp + mkey+" = " + iniData[mkey] + "\n"
+            mesg =  mesg + "<p>" + mkey+" : " + value + "</p>"
+            outp =  outp + mkey+" = " + value + "\n"
         }
     }
     genOutput.innerHTML = mesg
 
-    fs.writeFile("../G4gen2.ini", outp, function (err) {
+    fs.writeFile(iniData["ProjectPath"] + "/G4gen.ini", outp, function (err) {
         if (err) {
           alert("Write failed: " + err)
           return
         }
-    
-        // alert("test.ini saved.")
       });
+
+    client.invoke("g4gen", iniData["ProjectPath"] + "/G4gen.ini", (error, res) => {
+        if(error) {
+            console.error(error)
+        } else {
+            result.textContent = res
+        }
+    })
+      
 })

@@ -1,17 +1,15 @@
 from __future__ import print_function
-from calc import calc as real_calc
+from G4gen import G4gen as real_G4Gen
 import sys
 import zerorpc
 
-class CalcApi(object):
-    def calc(self, text):
-        """based on the input text, return the int result"""
-        try:
-            return real_calc(text)
+class G4GenApi(object) : 
+    def g4gen(self, text) :
+        try : 
+            return real_G4Gen(text)
         except Exception as e:
-            return 0.0
-    def echo(self, text):
-        """echo any text"""
+            return -99
+    def echo(self, text) :
         return text
 
 def parse_port():
@@ -24,7 +22,7 @@ def parse_port():
 
 def main():
     addr = 'tcp://127.0.0.1:' + parse_port()
-    s = zerorpc.Server(CalcApi())
+    s = zerorpc.Server(G4GenApi())
     s.bind(addr)
     print('start running on {}'.format(addr))
     s.run()
