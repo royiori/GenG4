@@ -7,8 +7,8 @@ Array.prototype.forEach.call(inilists, (inilist) => {
 // alert("->load ini-listener")
 
 window.onload = function () {
-    addTable(envTable, envContent)
     addTable(projTable, projContent)
+    addTable(envTable, envContent)
     addTable(basicTable, basicContent)
     addTable(classNameTable, classNameContent)
 
@@ -24,4 +24,16 @@ window.onload = function () {
     initialization()
 }
 
+let formula = document.querySelector('#formula')
+let result = document.querySelector('#result')
+formula.addEventListener('input', () => {
+  client.invoke("calc", formula.value, (error, res) => {
+    if(error) {
+      console.error(error)
+    } else {
+      result.textContent = res
+    }
+  })
+})
+formula.dispatchEvent(new Event('input'))
 

@@ -1,9 +1,10 @@
 import os
 import common as com
 
+
 def loadArray(path, records):
     try:
-        file = open(path, mode='r', encoding='UTF-8')     # open file in read mode
+        file = open(path, "r")     # open file in read mode
     except IOError as message:     # file open failed
         print("read file error({0}:{1})".format(message, path))
         sys.exit(1)
@@ -17,7 +18,7 @@ def loadArray(path, records):
 
 def saveArray(path, records):
     try:
-        file = open(path, mode='w', encoding='UTF-8')     # open file in write mode
+        file = open(path, "w")     # open file in write mode
     except IOError as message:     # file open failed
         print("write file error({0}:{1})".format(message, path))
         sys.exit(1)
