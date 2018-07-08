@@ -2,13 +2,15 @@ from __future__ import print_function
 from G4gen import G4gen as real_G4Gen
 import sys
 import zerorpc
+import gevent
+import greenlet
 
 class G4GenApi(object) : 
     def g4gen(self, text) :
         try : 
             return real_G4Gen(text)
         except Exception as e:
-            return -99
+            return ("open exception: " + str(e.errno) + ": " + e.strerror)
     def echo(self, text) :
         return text
 
