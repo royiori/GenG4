@@ -80,7 +80,7 @@ function addDOM(topdiv, dom, inival, idcont, classnm) {
             break
         case ("dropdowngrp"): addDropDownGroup(topdiv, inival, idcont, classnm)
             break
-        default: break
+            defalt: break
     }
 }
 
@@ -266,7 +266,7 @@ function parmWithLengUnit() {
     if (this.eventList > 1) this.removeEventLisener('change', parmWithLengUnit)
 
     inputthk = this.value.toLowerCase()
-    inputThkNumber = parseFloat(inputthk)
+    inputThkNumber = parseFloat(inputeng)
 
     if (inputthk.indexOf("um") > 0) this.value = inputThkNumber + " um"
     else if (inputthk.indexOf("mm") > 0) this.value = inputThkNumber + " mm"

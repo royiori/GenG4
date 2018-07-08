@@ -40,6 +40,5 @@
         "cstdlib": "cpp",
         "cwchar": "cpp",
         "cwctype": "cpp"
-    },
-    "git.ignoreLimitWarning": true
+    }
 }

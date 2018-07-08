@@ -32,15 +32,12 @@ wheels/
 #Distribution / Electron
 Electron/node_modules
 /node_modules
-/GenG4-darwin-x64
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
-pygeng4/dist
-pygeng4/build
-/pygeng4dist
+*.spec
 
 # Installer logs
 pip-log.txt

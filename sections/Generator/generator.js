@@ -1,7 +1,6 @@
 const generator = document.getElementById('generator')
 const genOutput = document.getElementById('genOutput')
 const fs = require("fs");
-const result = document.getElementById('result')
 
 function getMattCode(value){
     code = ""
@@ -121,7 +120,6 @@ generator.addEventListener('click', function () {
             console.error(error)
         } else {
             result.textContent = res
-            alert(res)
         }
     })
       
