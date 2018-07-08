@@ -122,7 +122,7 @@ function bodyNameListener() {
         td2 = document.getElementById(idcont + '-td2')
         if (!td2) continue
         td2.innerHTML = ""
-        addDropDown2(td2, iniMap["IDList"], idcont, 'IDList')
+        addDropDown(td2, iniMap["IDList"], idcont, 'IDList')
     }
 
     store(this.id, this.value)
