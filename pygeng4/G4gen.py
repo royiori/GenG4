@@ -4,20 +4,22 @@ import configparser
 import common as com
 import fileGen as fg
 
-
 def G4gen(str):
 
-    if str == "" : 
+    if str == "":
         abspath = os.path.dirname(__file__) + "/"
         filename = "/G4gen.ini"
-    else :
+    else:
         (abspath, filename) = os.path.split(str)
         abspath = abspath + "/"
 
     inifile = abspath + filename
-    
-    config = configparser.ConfigParser()
-    config.readfp(open(inifile, "r"))
+
+    try:
+        config = configparser.ConfigParser()
+        config.readfp(open(inifile, "r"))
+    except Exception as e:        
+        return ("open exception: " + str(e.errno) + ": " + e.strerror)
 
     version = '0.6'
     com.headStr = '//*********************************************\n'
@@ -28,18 +30,21 @@ def G4gen(str):
     temPath = templatePath + '/./template/source/'
     outPath = abspath + './codes/'
 
-    if os.path.exists(outPath) == False:
-        os.mkdir(outPath)
-    if os.path.exists(outPath+'/source') == False:
-        os.mkdir(outPath+'/source')
-    if os.path.exists(outPath+'./debug') == False:
-        os.mkdir(outPath+'./debug')
-    if os.path.exists(outPath+'./source/src') == False:
-        os.mkdir(outPath+'./source/src')
-    if os.path.exists(outPath+'./source/include') == False:
-        os.mkdir(outPath+'./source/include')
-    if os.path.exists(outPath+'./source/xml') == False:
-        os.mkdir(outPath+'./source/xml')
+    try:
+        if os.path.exists(outPath) == False:
+            os.mkdir(outPath)
+        if os.path.exists(outPath+'/source') == False:
+            os.mkdir(outPath+'/source')
+        if os.path.exists(outPath+'./debug') == False:
+            os.mkdir(outPath+'./debug')
+        if os.path.exists(outPath+'./source/src') == False:
+            os.mkdir(outPath+'./source/src')
+        if os.path.exists(outPath+'./source/include') == False:
+            os.mkdir(outPath+'./source/include')
+        if os.path.exists(outPath+'./source/xml') == False:
+            os.mkdir(outPath+'./source/xml')
+    except Exception as e:        
+        return ("open exception: " + str(e.errno) + ": " + e.strerror)
 
     # ===========================
     # Gen main file
@@ -51,8 +56,12 @@ def G4gen(str):
     # ===========================
     # Gen actionclass file
 
+    fg.commonReplace(temPath+'/include/MyDetectorConstruction.hh',
+                     outPath+'/source/include/'+com.detecClass+'.hh')
+
     fg.commonReplace(temPath+'/src/MyActionInitialization.cc',
                      outPath+'/source/src/'+com.actionClass+'.cc')
+
     fg.commonReplace(temPath+'/include/MyActionInitialization.hh',
                      outPath+'/source/include/'+com.actionClass+'.hh')
 
@@ -61,8 +70,6 @@ def G4gen(str):
 
     fg.commonReplace(temPath+'/src/MyDetectorConstruction.cc',
                      outPath+'/source/src/'+com.detecClass+'.cc')
-    fg.commonReplace(temPath+'/include/MyDetectorConstruction.hh',
-                     outPath+'/source/include/'+com.detecClass+'.hh')
 
     genDet = com.genDet(config, temPath+'/src/MyDetectorTemplate.cc')
     fg.detReplace(genDet, outPath+'/source/include/'+com.detecClass+'.hh')
@@ -209,8 +216,9 @@ def G4gen(str):
 
     return "project '" + com.mainfilename + "' is generated."
 
+
 if __name__ == '__main__':
-    if len(sys.argv) > 1 : 
+    if len(sys.argv) > 1:
         G4gen(sys.argv[1])
-    else :
+    else:
         G4gen("")

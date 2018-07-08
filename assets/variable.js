@@ -12,7 +12,7 @@ const NDET = 10
 var iniData = {
     "c1" : "main",
     "EntryFuncName": "main",
-    "ProjectPath" : "",
+    "ProjectPath" : "./",
     "G4LibPath": "",
     "QTLibPath": "",
     "AddUsrVerbose": "Yes",
@@ -38,7 +38,7 @@ var iniData = {
     "GunParticle" : "proton",
     "GunPosition" : "0,0,0",
     "GunDirection": "1,0,0,",
-    "cend" : "cend"
+    "cend" : "cend",
 }
 
 var iniDetKey = [
@@ -695,7 +695,13 @@ function myAlert(message) {
 }
 
 window.onclick = function (event) {
+    modal = document.getElementById('myModal')
     if (event.target == modal) {
         modal.style.display = "none"
     }
+}
+
+window.onerror = function(msg, url, linenumber) {
+    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+    return true;
 }
